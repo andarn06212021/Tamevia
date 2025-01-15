@@ -3074,7 +3074,7 @@ public final class Player extends Mob {
 
 	public int getRecentNpcKills() {
 		if (getLastNpcKilledId() == -1) return 0;
-		return getKillCache().get(getLastNpcKilledId());
+		return getKillCache().getOrDefault(getLastNpcKilledId(), 0);
 	}
 
 	public int getExpShared() {
