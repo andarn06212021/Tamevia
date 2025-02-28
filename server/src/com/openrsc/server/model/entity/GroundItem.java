@@ -115,6 +115,12 @@ public class GroundItem extends Entity {
 				}
 			}
 		}
+
+		// If the loot doesn't belong to anyone, iron's shouldn't be able to pick it up unless they dropped it.
+		if (player.getIronMan() != IronmanMode.None.id()) {
+			return getAttribute("ironOwnerHash", -1L) == player.getUsernameHash();
+		}
+
 		return player.getUsernameHash() == ownerUsernameHash || ownerUsernameHash == 0;
 	}
 
@@ -147,6 +153,10 @@ public class GroundItem extends Entity {
 		// should be visible to everyone else after a time, just not lootable for ironmen
 		// if (!belongsTo(player) && player.getIronMan() != IronmanMode.None.id())
 		//	return true;
+		// Ironman should be able to see loot dropped to the world, even if it doesn't belong to them.
+		if (player.getIronMan() != IronmanMode.None.id() && ownerUsernameHash == 0) {
+			return false;
+		}
 
 		// One minute and four seconds to show to all.
 		return System.currentTimeMillis() - spawnedTime <= 64000;
