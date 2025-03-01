@@ -116,8 +116,14 @@ public class GroundItem extends Entity {
 			}
 		}
 
-		// If the loot doesn't belong to anyone, iron's shouldn't be able to pick it up unless they dropped it.
+		// Special conditions for if the player is an ironman
 		if (player.getIronMan() != IronmanMode.None.id()) {
+			// The loot was dropped from a mob. It's theirs.
+			if (player.getUsernameHash() == ownerUsernameHash) {
+				return true;
+			}
+
+			// If they got PKed, we need to make sure its their own loot pile.
 			return getAttribute("ironOwnerHash", -1L) == player.getUsernameHash();
 		}
 
