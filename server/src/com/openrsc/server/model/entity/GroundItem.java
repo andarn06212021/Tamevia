@@ -116,15 +116,14 @@ public class GroundItem extends Entity {
 			}
 		}
 
-		// Special conditions for if the player is an ironman
+		// If the player is an ironman,
 		if (player.getIronMan() != IronmanMode.None.id()) {
-			// The loot was dropped from a mob. It's theirs.
-			if (player.getUsernameHash() == ownerUsernameHash) {
-				return true;
+			// This attribute should only be there if the loot pile was dropped by someone that was killed by a mob
+			long killedByMobOwner = getAttribute("killedByMob", -1L);
+			if (killedByMobOwner != -1L) {
+				// Can only pick it up if it's their own loot pile
+				return killedByMobOwner == player.getUsernameHash();
 			}
-
-			// If they got PKed, we need to make sure its their own loot pile.
-			return getAttribute("ironOwnerHash", -1L) == player.getUsernameHash();
 		}
 
 		return player.getUsernameHash() == ownerUsernameHash || ownerUsernameHash == 0;
@@ -156,11 +155,9 @@ public class GroundItem extends Entity {
 			return false;
 		if (getID() > player.getClientLimitations().maxItemId)
 			return true;
-		// should be visible to everyone else after a time, just not lootable for ironmen
-		// if (!belongsTo(player) && player.getIronMan() != IronmanMode.None.id())
-		//	return true;
-		// Ironman should be able to see loot dropped to the world, even if it doesn't belong to them.
-		if (player.getIronMan() != IronmanMode.None.id() && ownerUsernameHash == 0) {
+		// If the killedByMob attribute exists, this means that the pile was dropped when another player was killed by a mob.
+		// The ironman should be able to see it, but still not pick it up.
+		if (player.getIronMan() != IronmanMode.None.id() && getAttribute("killedByMob", -1L) != -1) {
 			return false;
 		}
 

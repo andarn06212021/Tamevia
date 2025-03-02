@@ -513,13 +513,10 @@ public class Inventory {
 			if (mob == null || mob.isNpc()) {
 				final GroundItem groundItem = new GroundItem(player.getWorld(), item.getCatalogId(), player.getX(),
 					player.getY(), item.getAmount(), null, item.getNoted());
-				
-				// If the player is an ironman, we need to tag the loot as theirs so they can pick it up.
-				if (player.getIronMan() != IronmanMode.None.id()) {
-					groundItem.setAttribute("ironOwnerHash", player.getUsernameHash());
-				}
-
 				player.getWorld().registerItem(groundItem, player.getConfig().GAME_TICK * 1000);
+
+				groundItem.setAttribute("killedByMob", player.getUsernameHash());
+
 				continue;
 			}
 
@@ -533,11 +530,6 @@ public class Inventory {
 
 			groundItem.setAttribute("playerKill", true);
 			groundItem.setAttribute("killerHash", playerMob.getUsernameHash());
-
-			// If the player is an ironman, we need to tag the loot as theirs so they can pick it up.
-			if (player.getIronMan() != IronmanMode.None.id()) {
-				groundItem.setAttribute("ironOwnerHash", player.getUsernameHash());
-			}
 
 			player.getWorld().registerItem(groundItem, player.getConfig().GAME_TICK * 1000);
 		}
