@@ -96,7 +96,7 @@ public final class CommandHandler implements PayloadProcessor<CommandStruct, Opc
 				"become",
 				"becomenpc",
 				"morph",
-				"morphNnc",
+				"morphnpc",
 				"becomegod",
 				"speaktongues",
 				"restorehumanity",
