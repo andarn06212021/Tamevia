@@ -13,6 +13,7 @@ import com.openrsc.server.model.entity.npc.Npc;
 import com.openrsc.server.model.entity.player.Player;
 import com.openrsc.server.net.rsc.ActionSender;
 import com.openrsc.server.plugins.MiniGameInterface;
+import com.openrsc.server.plugins.RuneScript;
 import com.openrsc.server.plugins.triggers.*;
 import com.openrsc.server.util.rsc.DataConversions;
 
@@ -64,10 +65,7 @@ public class MageArena implements MiniGameInterface, TalkNpcTrigger, KillNpcTrig
 				npcsay(player, n, "you return young conjurer..", "..you obviously have a taste for the darkside of magic",
 					"let us continue with the battle...now");
 				if (cantGo(player)) {
-					mes("You cannot enter the arena...");
-					delay(3);
-					mes("...while carrying weapons or armour");
-					delay(3);
+					cantGoMessage(player);
 					return;
 				}
 				teleport(player, 229, 130);
@@ -182,10 +180,7 @@ public class MageArena implements MiniGameInterface, TalkNpcTrigger, KillNpcTrig
 			"before i can accept you in, we must duel",
 			"you may not take armour or weapons into the arena");
 		if (cantGo(player)) {
-			mes("You cannot enter the arena...");
-			delay(3);
-			mes("...while carrying weapons or armour");
-			delay(3);
+			cantGoMessage(player);
 		}
 		else {
 			int choice = multi(player, n, "ok let's fight", "no thanks");
@@ -429,6 +424,25 @@ public class MageArena implements MiniGameInterface, TalkNpcTrigger, KillNpcTrig
 		ItemId.STAFF_OF_GUTHIX.id()
 	};
 
+	private final int[] statBoostingPotions = {
+		ItemId.FULL_ATTACK_POTION.id(),
+		ItemId.TWO_ATTACK_POTION.id(),
+		ItemId.ONE_ATTACK_POTION.id(),
+		ItemId.FULL_STRENGTH_POTION.id(),
+		ItemId.THREE_STRENGTH_POTION.id(),
+		ItemId.TWO_STRENGTH_POTION.id(),
+		ItemId.ONE_STRENGTH_POTION.id(),
+		ItemId.FULL_SUPER_ATTACK_POTION.id(),
+		ItemId.TWO_SUPER_ATTACK_POTION.id(),
+		ItemId.ONE_SUPER_ATTACK_POTION.id(),
+		ItemId.FULL_SUPER_STRENGTH_POTION.id(),
+		ItemId.TWO_SUPER_STRENGTH_POTION.id(),
+		ItemId.ONE_SUPER_STRENGTH_POTION.id(),
+		ItemId.FULL_STAT_RESTORATION_POTION.id(),
+		ItemId.TWO_STAT_RESTORATION_POTION.id(),
+		ItemId.ONE_STAT_RESTORATION_POTION.id()
+	};
+
 	private boolean isNotAllowed(Player player, Item item) {
 		ItemDefinition def = item.getDef(player.getWorld());
 		if (def.isWieldable()) {
@@ -450,9 +464,31 @@ public class MageArena implements MiniGameInterface, TalkNpcTrigger, KillNpcTrig
 				|| (item.getCatalogId() == ItemId.ICE_GLOVES.id())) return false;
 			// disallow any other wearable
 			return true;
+		} else {
+			// non wearables are ok
+			// Unless we're on Cabbage
+			if (config().WANT_COMBAT_ODYSSEY) {
+				// Disallow stat boosting potions
+				return inArray(item.getCatalogId(), statBoostingPotions);
+			}
 		}
-		// non wearables are ok
 		return false;
+	}
+
+	private void cantGoMessage(Player player) {
+		if (!config().WANT_COMBAT_ODYSSEY) {
+			// Authentic
+			mes("You cannot enter the arena...");
+			delay(3);
+			mes("...while carrying weapons or armour");
+			delay(3);
+		} else {
+			// Cabbage
+			mes("You cannot enter the arena...");
+			delay(3);
+			mes("...while carrying weapons, armour, or melee potions");
+			delay(3);
+		}
 	}
 
 	private boolean cantGo(Player player) {
@@ -641,10 +677,7 @@ public class MageArena implements MiniGameInterface, TalkNpcTrigger, KillNpcTrig
 					if (!cantGo(player)) {
 						teleport(player, 228, 120);
 					} else {
-						mes("You cannot enter the arena...");
-						delay(3);
-						mes("...while carrying weapons or armour");
-						delay(3);
+						cantGoMessage(player);
 					}
 				} else {
 					player.message("you cannot enter without the permission of kolodion");
@@ -754,9 +787,17 @@ public class MageArena implements MiniGameInterface, TalkNpcTrigger, KillNpcTrig
 			if (!affectedmob.getAttribute("spawnedFor", null).equals(player)) {
 				player.message("that mage is busy.");
 			}
-		} else if (inArray(affectedmob.getID(), NpcId.BATTLE_MAGE_GUTHIX.id(), NpcId.BATTLE_MAGE_ZAMORAK.id(), NpcId.BATTLE_MAGE_SARADOMIN.id())
-			&& (!player.getCache().hasKey("mage_arena") || player.getCache().getInt("mage_arena") <= 2)) {
-			player.message("you are not yet ready to fight the battle mages");
+		} else if (inArray(affectedmob.getID(), NpcId.BATTLE_MAGE_GUTHIX.id(), NpcId.BATTLE_MAGE_ZAMORAK.id(), NpcId.BATTLE_MAGE_SARADOMIN.id())) {
+			if (!player.getCache().hasKey("mage_arena") || player.getCache().getInt("mage_arena") <= 2) {
+				player.message("you are not yet ready to fight the battle mages");
+			} else {
+				// Cabbage only
+				if (config().WANT_COMBAT_ODYSSEY) {
+					setCurrentLevel(player, Skill.ATTACK.id(), 0);
+					setCurrentLevel(player, Skill.STRENGTH.id(), 0);
+					RuneScript.npcattack();
+				}
+			}
 		}
 	}
 
@@ -768,7 +809,7 @@ public class MageArena implements MiniGameInterface, TalkNpcTrigger, KillNpcTrig
 				return true;
 			}
 		} else if (inArray(n.getID(), NpcId.BATTLE_MAGE_GUTHIX.id(), NpcId.BATTLE_MAGE_ZAMORAK.id(), NpcId.BATTLE_MAGE_SARADOMIN.id())
-			&& (!player.getCache().hasKey("mage_arena") || player.getCache().getInt("mage_arena") <= 2)) {
+			&& (player.getConfig().WANT_COMBAT_ODYSSEY || !player.getCache().hasKey("mage_arena") || player.getCache().getInt("mage_arena") <= 2)) {
 			return true;
 		}
 
