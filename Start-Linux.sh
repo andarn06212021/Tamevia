@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 exec 0</dev/tty
 RED=$(tput setaf 1)
 NC=$(tput sgr0) # No Color

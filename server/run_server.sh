@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 
 # Kills all java processes - needed for server auto restart process.
 sudo killall java

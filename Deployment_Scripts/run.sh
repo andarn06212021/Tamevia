@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 
 # Run the game server in a detached screen
 echo ""
@@ -11,12 +11,12 @@ echo ""
 cd server
 
 # runs server with the configuration found in "server/local.conf"
-bash ./ant_launcher.sh local g1gc
+sh ./ant_launcher.sh local g1gc
 
 # uncomment to run additional servers with different configurations. Prod use: uncomment all below
-#bash ./ant_launcher.sh openrsc &&  \
-#bash ./ant_launcher.sh rsccabbage && \
-#bash ./ant_launcher.sh uranium && \
-#bash ./ant_launcher.sh rsccoleslaw && \
-#bash ./ant_launcher.sh 2001scape && \
-##bash ./ant_launcher.sh openpk
+#sh ./ant_launcher.sh openrsc &&  \
+#sh ./ant_launcher.sh rsccabbage && \
+#sh ./ant_launcher.sh uranium && \
+#sh ./ant_launcher.sh rsccoleslaw && \
+#sh ./ant_launcher.sh 2001scape && \
+##sh ./ant_launcher.sh openpk
