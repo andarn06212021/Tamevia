@@ -1716,24 +1716,87 @@ public class MySqlGameDatabase extends JDBCDatabase {
 	}
 
 	@Override
-	public void querySavePlayerFriends(final int playerId, final PlayerFriend[] friends) throws GameDatabaseException {
-		try (final PreparedStatement statement = getConnection().prepareStatement(getMySqlQueries().save_AddFriends)) {
-
-			updateLongs(getMySqlQueries().save_DeleteFriends, playerId);
-			for (final PlayerFriend friend : friends) {
-				String username = DataConversions.hashToUsername(friend.playerHash);
-				if (username.equalsIgnoreCase("invalid_name"))
-					continue;
-				statement.setInt(1, playerId);
-				statement.setLong(2, friend.playerHash);
-				statement.setString(3, friend.playerName);
-				statement.setString(4, friend.formerName);
-				statement.addBatch();
+	public void querySavePlayerFriends(final int playerId, final PlayerFriend[] newFriends) throws GameDatabaseException {
+		try (final PreparedStatement fetchStatement = getConnection().prepareStatement(getMySqlQueries().save_SelectFriends)) {
+			// Step 1: Fetch existing friends
+			Map<Long, PlayerFriend> existingFriends = new HashMap<>();
+			fetchStatement.setInt(1, playerId);
+			try (final ResultSet rs = fetchStatement.executeQuery()) {
+				while (rs.next()) {
+					long friendHash = rs.getLong("friend");
+					PlayerFriend playerFriend = new PlayerFriend();
+					playerFriend.playerName = rs.getString("friendName");
+					playerFriend.playerHash = friendHash;
+					playerFriend.formerName = rs.getString("friendFormerName");
+					existingFriends.put(friendHash, playerFriend);
+				}
 			}
 
-			statement.executeBatch();
+			// Step 2: Identify which friends need to be added, updated, or deleted
+			Set<Long> newFriendHashes = new HashSet<>();
+			List<PlayerFriend> toInsert = new ArrayList<>();
+			List<PlayerFriend> toUpdate = new ArrayList<>();
+
+			for (PlayerFriend friend : newFriends) {
+				String username = DataConversions.hashToUsername(friend.playerHash);
+				if (username.equalsIgnoreCase("invalid_name")) continue;
+
+				newFriendHashes.add(friend.playerHash);
+				if (!existingFriends.containsKey(friend.playerHash)) {
+					toInsert.add(friend); // New friend, needs to be inserted
+				} else {
+					PlayerFriend existingFriend = existingFriends.get(friend.playerHash);
+					if (!existingFriend.playerName.equals(friend.playerName) ||
+						!existingFriend.formerName.equals(friend.formerName)) {
+						toUpdate.add(friend); // Existing friend but needs an update
+					}
+				}
+			}
+
+			// Step 3: Remove friends that are no longer in the new list
+			if (!existingFriends.isEmpty()) {
+				String deleteQuery = String.format(getMySqlQueries().save_DeleteFriendsExcept,
+						String.join(",", Collections.nCopies(newFriendHashes.size(), "?")));
+
+				try (final PreparedStatement deleteStatement = getConnection().prepareStatement(deleteQuery)) {
+					deleteStatement.setInt(1, playerId);
+					int index = 2;
+					for (Long hash : newFriendHashes) {
+						deleteStatement.setLong(index++, hash);
+					}
+					deleteStatement.executeUpdate();
+				}
+			}
+
+			// Step 4: Insert new friends
+			if (!toInsert.isEmpty()) {
+				try (final PreparedStatement insertStatement = getConnection().prepareStatement(getMySqlQueries().save_AddFriends)) {
+					for (PlayerFriend friend : toInsert) {
+						insertStatement.setInt(1, playerId);
+						insertStatement.setLong(2, friend.playerHash);
+						insertStatement.setString(3, friend.playerName);
+						insertStatement.setString(4, friend.formerName);
+						insertStatement.addBatch();
+					}
+					insertStatement.executeBatch();
+				}
+			}
+
+			// Step 5: Update existing friends (if name or former name has changed)
+			if (!toUpdate.isEmpty()) {
+				try (final PreparedStatement updateStatement = getConnection().prepareStatement(getMySqlQueries().save_UpdateFriends)) {
+					for (PlayerFriend friend : toUpdate) {
+						updateStatement.setString(1, friend.playerName);
+						updateStatement.setString(2, friend.formerName);
+						updateStatement.setInt(3, playerId);
+						updateStatement.setLong(4, friend.playerHash);
+						updateStatement.addBatch();
+					}
+					updateStatement.executeBatch();
+				}
+			}
+
 		} catch (final SQLException ex) {
-			// Convert SQLException to a general usage exception
 			throw new GameDatabaseException(MySqlGameDatabase.class, ex.getMessage());
 		}
 	}

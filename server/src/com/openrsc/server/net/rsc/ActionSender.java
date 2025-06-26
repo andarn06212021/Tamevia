@@ -595,9 +595,9 @@ public class ActionSender {
 	 * @param username - the friend player's username (with proper capitalization)
 	 */
 	public static void sendFriendUpdate(Player player, long usernameHash, String username, String formerName) {
-		sendFriendUpdate(player, usernameHash, username, false, formerName);
+		sendFriendUpdate(player, usernameHash, username, false, formerName, false);
 	}
-	public static void sendFriendUpdate(Player player, long usernameHash, String username, boolean nameChangeEvent, String formerName) {
+	public static void sendFriendUpdate(Player player, long usernameHash, String username, boolean nameChangeEvent, String formerName, boolean caseSensitivityReportsFormerName) {
 		FriendUpdateStruct struct = new FriendUpdateStruct();
 		int onlineStatus = 0;
 		struct.worldNumber = 0;
@@ -624,7 +624,11 @@ public class ActionSender {
 		}
 
 		struct.name = username;
-		struct.formerName = formerName.equalsIgnoreCase(username) ? "" : formerName;
+		if (caseSensitivityReportsFormerName) {
+			struct.formerName = formerName.equals(username) ? "" : formerName;
+		} else {
+			struct.formerName = formerName.equalsIgnoreCase(username) ? "" : formerName;
+		}
 		struct.onlineStatus = nameChangeEvent ? onlineStatus | 1 : onlineStatus;
 		struct.worldName = (onlineStatus & 4) != 0 ? player.getConfig().SERVER_NAME : "";
 		tryFinalizeAndSendPacket(OpcodeOut.SEND_FRIEND_UPDATE, struct, player);
@@ -896,7 +900,7 @@ public class ActionSender {
 	 * Updates the friends list of a player who is online when someone they like changes their name
 	 */
 	public static void updateFriendListBecauseNameChange(Player playerToUpdate, String oldFriendName, String newFriendName) {
-		ActionSender.sendFriendUpdate(playerToUpdate, DataConversions.usernameToHash(newFriendName), newFriendName, true, oldFriendName);
+		ActionSender.sendFriendUpdate(playerToUpdate, DataConversions.usernameToHash(newFriendName), newFriendName, true, oldFriendName, true);
 		if (playerToUpdate.getClientVersion() < 233) {
 			// clients without support for name changes will be confused by the addition of a random person to their friends list.
 			playerToUpdate.message("@whi@Your friend @red@\"" + oldFriendName + "\"@whi@ was renamed to @cya@\"" + newFriendName + "\"");

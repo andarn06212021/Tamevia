@@ -385,6 +385,11 @@ public class CharacterCreateRequest extends LoginExecutorProcess{
 			}
 		}
 
+		if (!notAllowed && (user.equals("invalid_name") || user.equals("invalid name"))) {
+			// reserved name for friend's list functionality
+			notAllowed = true;
+		}
+
 		return notAllowed;
 	}
 }

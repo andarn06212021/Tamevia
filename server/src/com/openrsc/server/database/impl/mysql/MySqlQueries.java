@@ -9,7 +9,7 @@ public class MySqlQueries {
 
 	public String updateExperience, updateStats, updateMaxStats, updateMaxStat, updateExpCapped, playerExpCapped, playerExp, playerCurExp, playerMaxExp;
 	public final String copyPassword, createPlayer, recentlyRegistered, initMaxStats, initStats, initExp, initExpCapped;
-	public final String save_AddFriends, save_DeleteFriends, save_AddIgnored, save_DeleteIgnored;
+	public final String save_AddFriends, save_AddIgnored, save_DeleteIgnored;
 	public final String playerExists, playerInvItems, playerEquipped, playerBankItems, playerBankPresets;
 	public final String playerFriends, playerIgnored, playerQuests, playerAchievements, playerCache;
 	public final String max_itemStatus, save_ItemCreate, save_ItemUpdate, save_ItemPurge; //itemstatuses, must be inserted before adding entry on bank, equipment, inventory
@@ -29,6 +29,7 @@ public class MySqlQueries {
 	public final String discordIdToPlayerId, playerIdFromPairToken, pairDiscord, deleteTokenFromCache, watchlist, watchlists, updateWatchlist, deleteWatchlist;
 	public final String save_IronMan, checkMute, updateMute, updatePlayerLocation;
 	public final String selectFriendNameUsername, fixFriendNameCapitalization, insertFormerName, insertLoginAttempt, playerGetFormerNameInvoluntaryChange;
+	public final String save_SelectFriends, save_UpdateFriends, save_DeleteFriendsExcept;
 	private final Server server;
 
 	public final Server getServer() {
@@ -88,11 +89,10 @@ public class MySqlQueries {
 		initExpCapped = "INSERT INTO `" + PREFIX + "capped_experience` (`playerID`) VALUES (?)";
 
 		save_AddFriends = "INSERT INTO `" + PREFIX + "friends`(`playerID`, `friend`, `friendName`, `friendFormerName`) VALUES(?, ?, ?, ?)";
-		save_DeleteFriends = "DELETE FROM `" + PREFIX + "friends` WHERE `playerID` = ?";
 		save_AddIgnored = "INSERT INTO `" + PREFIX + "ignores`(`playerID`, `ignore`, `ignoreFormer`) VALUES(?, ?, ?)";
 		save_DeleteIgnored = "DELETE FROM `" + PREFIX + "ignores` WHERE `playerID` = ?";
 		playerExists = "SELECT 1 FROM `" + PREFIX + "players` WHERE `id` = ?";
-		usernameToProperUsername = "SELECT username, former_name, group_id FROM `" + PREFIX + "players` WHERE `username` = ?";
+		usernameToProperUsername = "SELECT username, former_name, group_id FROM `" + PREFIX + "players` WHERE LOWER(`username`) = LOWER(?)";
 		playerInvItems = "SELECT i.*,i2.* FROM `" + PREFIX + "invitems` i JOIN `" + PREFIX + "itemstatuses` i2 ON i.`itemID`=i2.`itemID` WHERE i.`playerID`=? ORDER BY `slot` ASC";
 		playerEquipped = "SELECT i.`itemID`,i2.* FROM `" + PREFIX + "equipped` i JOIN `" + PREFIX + "itemstatuses` i2 ON i.`itemID`=i2.`itemID` WHERE i.`playerID`=?";
 		playerBankItems = "SELECT i.`itemID`,i2.* FROM `" + PREFIX + "bank` i JOIN `" + PREFIX + "itemstatuses` i2 ON i.`itemID`=i2.`itemID` WHERE i.`playerID`=? ORDER BY `slot` ASC";
@@ -226,6 +226,11 @@ public class MySqlQueries {
 
 		insertLoginAttempt = "INSERT INTO `" + PREFIX + "logins`(`playerID`, `ip`, `time`, `clientVersion`, `nonce`) VALUES(?, ?, ?, ?, ?)";
 		playerGetFormerNameInvoluntaryChange = "SELECT username, changeType from `" + PREFIX + "former_names` INNER JOIN `" + PREFIX + "players` ON playerId=id WHERE formerName LIKE ? AND (changeType LIKE 1 OR changeType LIKE 3) ORDER BY time DESC LIMIT 1";
+
+		save_SelectFriends = "SELECT friend, friendName, friendFormerName FROM `" + PREFIX + "friends` WHERE `playerID` = ?";
+		save_UpdateFriends = "UPDATE `" + PREFIX + "friends` SET `friendName` = ?, `friendFormerName` = ? WHERE `playerID` = ? AND `friend` = ?";
+		save_DeleteFriendsExcept = "DELETE FROM `" + PREFIX + "friends` WHERE `playerID` = ? AND `friend` NOT IN (%s)";
+
 
 		//unreadMessages = "SELECT COUNT(*) FROM `messages` WHERE showed=0 AND show_message=1 AND owner=?";
 		//teleportStones = "SELECT `teleport_stone` FROM `users` WHERE id=?";
