@@ -800,7 +800,10 @@ public final class Player extends Mob {
 	}
 
 	public void close() {
-		getChannel().close();
+		Channel channel = getChannel();
+		if (channel != null && channel.isOpen()) {
+			channel.close();
+		}
 	}
 
 	public boolean canLogout() {

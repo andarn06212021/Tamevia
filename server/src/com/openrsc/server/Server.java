@@ -567,7 +567,7 @@ public class Server implements Runnable {
 					if (!terminationResult) {
 						LOGGER.error("Server thread termination failed");
 						List<Runnable> skippedTasks = scheduledExecutor.shutdownNow();
-						LOGGER.error("{} task(s) never commenced execution", skippedTasks.size());
+						LOGGER.error("{} task(s) never commenced execution, forcing shutdown", skippedTasks.size());
 					}
 				} catch (final InterruptedException e) {
 					LOGGER.catching(e);

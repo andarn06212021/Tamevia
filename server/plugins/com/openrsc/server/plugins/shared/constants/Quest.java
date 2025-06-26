@@ -1,11 +1,14 @@
 package com.openrsc.server.plugins.shared.constants;
 
 import com.openrsc.server.plugins.shared.model.QuestReward;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.util.HashMap;
 import java.util.Map;
 
 public class Quest {
+	private static final Logger LOGGER = LogManager.getLogger();
 
 	private static final Map<String, Quest> nameMap = new HashMap<>();
 
@@ -131,8 +134,11 @@ public class Quest {
 	}
 
 	public static void init(Map<String, Map.Entry<Integer, QuestReward>> mapQuests) {
-		if (nameMap.size() > 1)
-			throw new RuntimeException("Quests enum already initialized");
+		if (nameMap.size() > 1) {
+			LOGGER.warn("Quests enum already initialized, clearing and re-initializing Quests enum");
+			nameMap.clear();
+			nameMap.put(Quests.NONE, new Quest(Quests.NONE, -1, QuestReward.NONE));
+		}
 		for (Map.Entry<String, Map.Entry<Integer, QuestReward>> quest : mapQuests.entrySet()) {
 			addQuest(quest.getKey(), quest.getValue().getKey(), quest.getValue().getValue());
 		}
@@ -140,6 +146,10 @@ public class Quest {
 
 	private static void addQuest(String name, Integer id, QuestReward reward) {
 		Quest lookup = of(name);
+		if (lookup == null) {
+			LOGGER.warn("Somehow there is a null quest in addQuest when trying to look up quest {} with id {}", name, id);
+			return;
+		}
 		if (!name.equals(Quests.NONE) && lookup.id() != -1) {
 			throw new IllegalArgumentException("duplicate name: " + name);
 		}
