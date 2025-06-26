@@ -12,6 +12,7 @@ import org.apache.logging.log4j.Logger;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.*;
 import java.util.concurrent.atomic.AtomicBoolean;
@@ -114,8 +115,11 @@ public final class MySqlGameLogger extends GameLogger {
 			}
 		/*} catch (final GameDatabaseException ex) {
 			LOGGER.catching(ex);
-		*/} catch (final SQLException ex) {
+		*/} catch (final Exception ex) {
 			LOGGER.catching(ex);
+			if (server.getDiscordService() != null && server.getConfig().WANT_DISCORD_GENERAL_LOGGING) {
+				server.getDiscordService().errorLogStackTrace(ex);
+			}
 		}
 	}
 

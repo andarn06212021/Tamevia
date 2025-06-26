@@ -270,11 +270,27 @@ public final class Admins implements CommandTrigger {
 			setMonitorTimeoutMillis(player, command, args);
 		} else if (command.equalsIgnoreCase("reloadsslcert") || command.equalsIgnoreCase("refreshsslcert")) {
 			reloadSSLCert(player);
+		} else if (command.equalsIgnoreCase("sqlerrorreportingtest")) {
+			sqlErrorReportingTest(player, command, args);
 		}
 
 		/*else if (command.equalsIgnoreCase("fakecrystalchest")) {
 			fakeCrystalChest(player, args);
 		} */
+	}
+
+	public void sqlErrorReportingTest(Player player, String command, String[] args) {
+		//It may seem pointless to have a test command for this, but, this is actually a really helpful and safe way of testing the error logging service. This is an admin command not a developer command, since this is used by admins for testing that the webhook works as expected.
+		try {
+			throw new RuntimeException("This is just a test, please ignore:");
+		} catch (Exception ex) {
+			if (player.getWorld().getServer().getDiscordService() != null && player.getConfig().WANT_DISCORD_GENERAL_LOGGING) {
+				player.getWorld().getServer().getDiscordService().errorLogStackTrace(ex);
+				player.message("Invoked sqlErrorReportingTest.");
+			} else {
+				player.message("Discord service is null or WANT_DISCORD_GENERAL_LOGGING is false.");
+			}
+		}
 	}
 
 	private void setDowntimeReportMillis(Player player, String command, String[] args) {

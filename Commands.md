@@ -311,6 +311,9 @@ Admin Commands
   - Usage: `::reloadsslcert`
   - Alias: `::refreshsslcert`
   - Used to reload the SSL certificate files used for websocket connections to the server.
+- sqlerrorreportingtest
+  - Usage: `::sqlerrorreportingtest`
+  - Sends a test message with the discord general logging webhook URL with a stacktrace in it, to test that the webhook is working.
 ------------------------
 Developer Commands
 ------------------------

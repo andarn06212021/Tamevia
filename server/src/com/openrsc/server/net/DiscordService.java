@@ -481,6 +481,31 @@ public class DiscordService implements Runnable{
 		generalLog(playerMessage);
 	}
 
+	public void errorLog(final String text) {
+		DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		Calendar calendar = Calendar.getInstance();
+		final String errorMessage = String.format("%s %s %s %s",
+				"[" + dateFormat.format(calendar.getTime()) + "]",
+				"[" + server.getConfig().SERVER_NAME + "]",
+				"[ERROR]",
+				text.replaceAll("\"","")
+		);
+		generalLog(errorMessage);
+	}
+
+	public void errorLogStackTrace(final Exception ex) {
+		String text = "```" + ex + " " + Arrays.toString(ex.getStackTrace()).substring(0, Math.min(1500, Arrays.toString(ex.getStackTrace()).length())) + "```";
+		DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		Calendar calendar = Calendar.getInstance();
+		final String errorMessage = String.format("%s %s %s %s",
+				"[" + dateFormat.format(calendar.getTime()) + "]",
+				"[" + server.getConfig().SERVER_NAME + "]",
+				"[ERROR]",
+				text.replaceAll("\"","")
+		);
+		generalLog(errorMessage);
+	}
+
 	private void generalLog(final String message) {
 		if (getServer().getConfig().WANT_DISCORD_GENERAL_LOGGING) {
 			generalLogs.add(message);
