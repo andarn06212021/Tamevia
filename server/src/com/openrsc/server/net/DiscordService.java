@@ -484,7 +484,7 @@ public class DiscordService implements Runnable{
 	public void errorLog(final String text) {
 		DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		Calendar calendar = Calendar.getInstance();
-		final String errorMessage = String.format("%s %s %s %s",
+		final String errorMessage = String.format("%s %s %s: %s",
 				"[" + dateFormat.format(calendar.getTime()) + "]",
 				"[" + server.getConfig().SERVER_NAME + "]",
 				"[ERROR]",
@@ -497,7 +497,7 @@ public class DiscordService implements Runnable{
 		String text = "```" + ex + " " + Arrays.toString(ex.getStackTrace()).substring(0, Math.min(1500, Arrays.toString(ex.getStackTrace()).length())) + "```";
 		DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		Calendar calendar = Calendar.getInstance();
-		final String errorMessage = String.format("%s %s %s %s",
+		final String errorMessage = String.format("%s %s %s: %s",
 				"[" + dateFormat.format(calendar.getTime()) + "]",
 				"[" + server.getConfig().SERVER_NAME + "]",
 				"[ERROR]",
