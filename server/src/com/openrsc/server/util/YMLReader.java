@@ -6,38 +6,12 @@ import org.apache.logging.log4j.Logger;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.NoSuchElementException;
+import java.util.*;
 
 public class YMLReader {
 	private static final Logger LOGGER = LogManager.getLogger();
 
-	// Holds the key and attribute for each setting.
-	private class Setting {
-		private String key, attribute;
-
-		// Create a new setting by providing a key and an attribute.
-		private Setting(String key, String attribute) {
-			this.key = key;
-			this.attribute = attribute;
-		}
-
-		public String getAttribute() {
-			return attribute;
-		}
-
-		public String getKey() {
-			return key;
-		}
-	}
-
-	private List<Setting> settings;
-
-	public YMLReader() {
-		settings = new ArrayList<Setting>();
-	}
+	private final HashMap<String, String> settings = new HashMap<>();
 
 	public void loadFromYML(String fileName) throws IOException {
 		List<String> lines = Collections.emptyList();
@@ -76,7 +50,9 @@ public class YMLReader {
 			String[] elems = line.split(":");
 
 			// Trim the whitespace
-			for (int i = 0; i < elems.length; ++i) { elems[i] = elems[i].trim(); }
+			for (int i = 0; i < elems.length; ++i) {
+				elems[i] = elems[i].trim();
+			}
 
 			switch (elems.length) {
 				case 2:
@@ -85,13 +61,13 @@ public class YMLReader {
 					if (elems[1].equalsIgnoreCase("null")) {
 						LOGGER.info(fileName + ": Key \"" + elems[0] +
 							"\" has null value.");
-						settings.add(new Setting(elems[0], elems[1]));
+						settings.put(elems[0], elems[1]);
 					}
 					// Handle normal lines
 					else {
 						// Check if the key exists in the settings list
-						if (!(keyExists(elems[0]))) {
-							settings.add(new Setting(elems[0], elems[1]));
+						if (!(settings.containsKey(elems[0]))) {
+							settings.put(elems[0], elems[1]);
 						}
 						else {
 							LOGGER.info(fileName + ": Duplicate key: " + elems[0]);
@@ -100,7 +76,7 @@ public class YMLReader {
 					break;
 				case 3:
 					// Handles the line with the server port (it contains an extra colon)
-					settings.add(new Setting(elems[0], (elems[1] + ":" + elems[2])));
+					settings.put(elems[0], (elems[1] + ":" + elems[2]));
 					break;
 			}
 		}
@@ -109,26 +85,17 @@ public class YMLReader {
 	// Grabs the attribute of a specific setting given a key.
 	// If no setting is found with the given key, return null (might change, could break stuff).
 	public String getAttribute(String key) {
-		try
-		{
-			return settings.stream().
-				filter(setting -> setting.getKey().equalsIgnoreCase(key)).
-				findFirst().
-				get().
-				getAttribute();
+		if (settings.containsKey(key)) {
+			return settings.get(key);
 		}
 
-		catch (NoSuchElementException e)
-		{
-			return "NOT_HERE";
-		}
+		return "NOT_HERE";
 	}
 
 	// Returns true if there is already a setting with the
 	// key provided.
 	public boolean keyExists(String key) {
-		return settings.stream().
-			anyMatch(setting -> setting.getKey().equalsIgnoreCase(key));
+		return settings.containsKey(key);
 	}
 }
 
