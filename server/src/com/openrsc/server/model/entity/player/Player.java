@@ -4076,6 +4076,11 @@ public final class Player extends Mob {
 				getCache().remove("tutorial");
 			}
 			teleport(getConfig().RESPAWN_LOCATION_X, getConfig().RESPAWN_LOCATION_Y, false);
+
+			if (this.getWorld().getServer().getConfig().SKIP_TUTORIAL_GIVES_ITEMS) {
+				giveTutorialItems();
+			}
+
 			message("Skipped tutorial, welcome to Lumbridge");
 			ActionSender.sendPlayerOnTutorial(this);
 			final Player player = this;
@@ -4090,6 +4095,73 @@ public final class Player extends Mob {
 			return true;
 		}
 		return false;
+	}
+
+	private void giveTutorialItems() {
+		LinkedHashMap<Integer, Integer> itemsToAdd = new LinkedHashMap<>();
+		itemsToAdd.put(ItemId.BRONZE_AXE.id(), 1);
+		itemsToAdd.put(ItemId.TINDERBOX.id(), 1);
+		itemsToAdd.put(ItemId.COOKEDMEAT.id(), 1); // handles meat-shield-sword-burntmeat-meat
+		itemsToAdd.put(ItemId.NET.id(), 1);
+		itemsToAdd.put(ItemId.BRONZE_PICKAXE.id(), 1); // handles shrimp-pickaxe
+		itemsToAdd.put(ItemId.TIN_ORE.id(), 1);
+		itemsToAdd.put(ItemId.AIR_RUNE.id(), 12);
+		itemsToAdd.put(ItemId.MIND_RUNE.id(), 8);
+		itemsToAdd.put(ItemId.WATER_RUNE.id(), 3);
+		itemsToAdd.put(ItemId.EARTH_RUNE.id(), 2);
+		itemsToAdd.put(ItemId.BODY_RUNE.id(), 1);
+		itemsToAdd.put(ItemId.SLEEPING_BAG.id(), 1);
+
+		// Iterate over the items to add
+		for (Map.Entry<Integer, Integer> entry : itemsToAdd.entrySet()) {
+			int itemId = entry.getKey();
+			int amount = entry.getValue();
+
+			if (itemId == ItemId.BRONZE_PICKAXE.id()) {
+				// Handle the special case for Shrimp, after Net but before bronze pickaxe
+				if (!getCarriedItems().getInventory().contains(new Item(ItemId.SHRIMP.id(), 1))
+					&& !getCarriedItems().getInventory().contains(new Item(ItemId.RAW_SHRIMP.id(), 1))
+					&& !getBank().hasItemId(ItemId.RAW_SHRIMP.id())
+					&& !getBank().hasItemId(ItemId.SHRIMP.id())) {
+					getCarriedItems().getInventory().add(new Item(ItemId.SHRIMP.id(), 1));
+				}
+				if (!getCarriedItems().getInventory().contains(new Item(itemId, 1))
+					&& !getBank().hasItemId(itemId)) {
+					getCarriedItems().getInventory().add(new Item(itemId, amount));
+				}
+			} else if (itemId == ItemId.COOKEDMEAT.id()) {
+				// we want the order cookedmeat-shield-sword-burntmeat-cookedmeat, and cannot let the player have more or less than 2 cookedmeat.
+				int cookedMeatAmount = getBank().countId(ItemId.COOKEDMEAT.id()) + getCarriedItems().getInventory().countId(ItemId.COOKEDMEAT.id());
+				boolean hasBurntMeat = getCarriedItems().getInventory().contains(new Item(ItemId.BURNTMEAT.id(), 1)) || getBank().hasItemId(ItemId.BURNTMEAT.id());
+
+				if (cookedMeatAmount <= 0) {
+					// first cookedmeat. This is the one you spawn with initially.
+					getCarriedItems().getInventory().add(new Item(ItemId.COOKEDMEAT.id(), 1));
+				}
+
+				if (!getCarriedItems().getInventory().contains(new Item(ItemId.WOODEN_SHIELD.id(), 1))
+					&& !getBank().hasItemId(ItemId.WOODEN_SHIELD.id())) {
+					getCarriedItems().getInventory().add(new Item(ItemId.WOODEN_SHIELD.id(), amount));
+				}
+				if (!getCarriedItems().getInventory().contains(new Item(ItemId.BRONZE_LONG_SWORD.id(), 1))
+					&& !getBank().hasItemId(ItemId.BRONZE_LONG_SWORD.id())) {
+					getCarriedItems().getInventory().add(new Item(ItemId.BRONZE_LONG_SWORD.id(), amount));
+				}
+				if (!hasBurntMeat) {
+					getCarriedItems().getInventory().add(new Item(ItemId.BURNTMEAT.id(), 1));
+				}
+
+				if (cookedMeatAmount < 2) {
+					// second cookedmeat after shield-sword-burntmeat. This is the one you cook successfully.
+					getCarriedItems().getInventory().add(new Item(ItemId.COOKEDMEAT.id(), 1));
+				}
+			} else {
+				if (!getCarriedItems().getInventory().contains(new Item(itemId, 1))
+					&& !getBank().hasItemId(itemId)) {
+					getCarriedItems().getInventory().add(new Item(itemId, amount));
+				}
+			}
+		}
 	}
 
 	public Npc checkVisNpc(Player player, final int npcId, final int radius) {

@@ -112,6 +112,7 @@ public class ServerConfiguration {
 	public boolean WANT_HIDE_IP;
 	public boolean WANT_REMEMBER;
 	public boolean SHOW_TUTORIAL_SKIP_OPTION;
+	public boolean SKIP_TUTORIAL_GIVES_ITEMS;
 	public boolean WANT_GLOBAL_CHAT;
 	public boolean WANT_GLOBAL_FRIEND;
 	public boolean WANT_GLOBAL_RULES_AGREEMENT;
@@ -579,6 +580,7 @@ public class ServerConfiguration {
 		BATCH_PROGRESSION = tryReadBool("batch_progression").orElse(false);
 		CUSTOM_IMPROVEMENTS = tryReadBool("custom_improvements").orElse(false);
 		SHOW_TUTORIAL_SKIP_OPTION = tryReadBool("show_tutorial_skip_option").orElse(true);
+		SKIP_TUTORIAL_GIVES_ITEMS = tryReadBool("skip_tutorial_gives_items").orElse(false);
 		WANT_GLOBAL_CHAT = tryReadBool("want_global_chat").orElse(false);
 		WANT_GLOBAL_FRIEND = tryReadBool("want_global_friend").orElse(false);
 		WANT_GLOBAL_RULES_AGREEMENT = tryReadBool("want_global_rules_agreement").orElse(false);

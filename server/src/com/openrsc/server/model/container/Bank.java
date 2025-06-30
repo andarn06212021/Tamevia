@@ -77,7 +77,6 @@ public class Bank {
 				if (list.size() >= player.getWorld().getMaxBankSize())
 					return false;
 
-				// TODO: Durability
 				itemToAdd = new Item(itemToAdd.getCatalogId(), itemToAdd.getAmount());
 				long itemID = player.getWorld().getServer().getDatabase().incrementMaxItemId(player);
 
