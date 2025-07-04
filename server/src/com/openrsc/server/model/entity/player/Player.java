@@ -118,6 +118,7 @@ public final class Player extends Mob {
 	private FireCannonEvent cannonEvent = null;
 	private long consumeTimer = 0;
 	private long lastSaveTime = System.currentTimeMillis();
+	private long lastTimedEvent = System.currentTimeMillis();
 	private int appearanceID;
 	private HashMap<Long, Integer> knownPlayersAppearanceIDs = new HashMap<Long, Integer>();
 	private long lastCommand;
@@ -615,6 +616,14 @@ public final class Player extends Mob {
 
 	public void setLastSaveTime(final long save) {
 		lastSaveTime = save;
+	}
+
+	public long getLastTimedEvent() {
+		return lastTimedEvent;
+	}
+
+	public void setLastTimedEvent(final long time) {
+		lastTimedEvent = time;
 	}
 
 	public int getAppearanceID() {

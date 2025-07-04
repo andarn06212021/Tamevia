@@ -45,6 +45,7 @@ public class ServerConfiguration {
 	public boolean WANT_FEATURE_WEBSOCKETS;
 	int IDLE_TIMER;
 	int AUTO_SAVE;
+	public int TIMED_EVENT_INTERVAL;
 	public int MILLISECONDS_BETWEEN_CASTS;
 	public int AGGRO_RANGE;
 	public DatabaseType DB_TYPE;
@@ -640,6 +641,7 @@ public class ServerConfiguration {
 		WANT_INVISIBLE_NPCS = tryReadBool("want_invisible_npcs").orElse(false);
 		EQUIP_QUEST_ITEMS_WITHOUT_QUESTS = tryReadBool("equip_quest_items_without_quests").orElse(false);
 		WANT_PACKET_REGISTER = tryReadBool("want_packet_register").orElse(true);
+		TIMED_EVENT_INTERVAL = tryReadInt("timed_event_interval").orElse(30000);
 
 		// Party settings
 		WANT_PARTIES = tryReadBool("want_parties").orElse(false);

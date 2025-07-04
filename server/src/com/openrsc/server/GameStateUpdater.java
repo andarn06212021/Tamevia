@@ -98,16 +98,19 @@ public final class GameStateUpdater {
 		final long curTime = System.currentTimeMillis();
 		final int timeoutLimit = getServer().getConfig().IDLE_TIMER; // 5 minute idle log out
 		final int autoSave = getServer().getConfig().AUTO_SAVE; // 30 second autosave by default
+		final int timedEvents = getServer().getConfig().TIMED_EVENT_INTERVAL;
 		if (player.isRemoved() || player.getAttribute("dummyplayer", false)) {
 			return;
 		}
 		if (curTime - player.getLastSaveTime() >= (autoSave) && player.loggedIn()) {
 			player.timeIncrementActivity();
-			if (player.getConfig().WANT_CUSTOM_QUESTS) {
-				player.getWorld().getServer().getPluginHandler().handlePlugin(TimedEventTrigger.class, player, new Object[]{player});
-			}
 			player.save();
 			player.setLastSaveTime(curTime);
+		}
+
+		if (player.getConfig().WANT_CUSTOM_QUESTS && curTime - player.getLastTimedEvent() >= timedEvents && player.loggedIn()) {
+			player.getWorld().getServer().getPluginHandler().handlePlugin(TimedEventTrigger.class, player, new Object[]{player});
+			player.setLastTimedEvent(curTime);
 		}
 
 		if (curTime - player.getLastClientActivity() >= 30000) {
