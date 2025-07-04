@@ -3370,6 +3370,16 @@ public final class Player extends Mob {
 		}
 	}
 
+	public boolean getGroundItemNames() {
+		if (getConfig().GROUND_ITEM_NAMES) {
+			if (getCache().hasKey("setting_ground_item_names")) {
+				return getCache().getBoolean("setting_ground_item_names");
+			}
+		}
+
+		return false;
+	}
+
 	public int getFightModeSelectorToggle() {
 		if (getWorld().getServer().getConfig().FIGHTMODE_SELECTOR_TOGGLE) {
 			if (getCache().hasKey("setting_fightmode_selector")) {

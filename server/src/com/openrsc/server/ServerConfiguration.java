@@ -96,6 +96,7 @@ public class ServerConfiguration {
 	public boolean WANT_KILL_FEED;
 	public boolean FOG_TOGGLE;
 	public boolean GROUND_ITEM_TOGGLE;
+	public boolean GROUND_ITEM_NAMES;
 	public boolean AUTO_MESSAGE_SWITCH_TOGGLE;
 	public boolean HIDE_LOGIN_BOX_TOGGLE;
 	public boolean BATCH_PROGRESSION;
@@ -504,6 +505,7 @@ public class ServerConfiguration {
 		ZOOM_VIEW_TOGGLE = tryReadBool("zoom_view_toggle").orElse(false);
 		FOG_TOGGLE = tryReadBool("fog_toggle").orElse(false);
 		GROUND_ITEM_TOGGLE = tryReadBool("ground_item_toggle").orElse(false);
+		GROUND_ITEM_NAMES = tryReadBool("ground_item_names").orElse(false);
 		MENU_COMBAT_STYLE_TOGGLE = tryReadBool("menu_combat_style_toggle").orElse(false);
 		FIGHTMODE_SELECTOR_TOGGLE = tryReadBool("fightmode_selector_toggle").orElse(false);
 		EXPERIENCE_COUNTER_TOGGLE = tryReadBool("experience_counter_toggle").orElse(false);

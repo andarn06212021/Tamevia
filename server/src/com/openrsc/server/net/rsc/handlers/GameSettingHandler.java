@@ -90,6 +90,8 @@ public final class GameSettingHandler implements PayloadProcessor<GameSettingStr
 				player.getCache().set("setting_status_bar", value);
 			} else if (idx == 44) {
 				player.getCache().store("show_recent_npc_kc", value == 1);
+			} else if (idx == 45) {
+				player.getCache().store("setting_ground_item_names", value == 1);
 			}
 			return;
 		}
