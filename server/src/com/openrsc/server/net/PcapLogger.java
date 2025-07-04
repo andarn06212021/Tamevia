@@ -1,11 +1,15 @@
 package com.openrsc.server.net;
 
 import java.io.*;
+import java.nio.file.*;
 import java.util.LinkedList;
 import java.util.zip.GZIPOutputStream;
 
 public class PcapLogger {
 
+	private final String serverName;
+	private final String yyyyMM;
+	private final String username;
 	public String fname;
 	final private LinkedList<ReplayPacket> m_packets = new LinkedList<ReplayPacket>();
 
@@ -16,7 +20,10 @@ public class PcapLogger {
 	public static final int VIRTUAL_OPCODE_SERVER_METADATA = 12345;
 
 
-	public PcapLogger(String filename) {
+	public PcapLogger(String serverName, String yyyyMM, String username, String filename) {
+		this.serverName = serverName;
+		this.yyyyMM = yyyyMM;
+		this.username = username;
 		this.fname = filename;
 	}
 
@@ -97,13 +104,21 @@ public class PcapLogger {
 	}
 
 	public void exportPCAP() {
-		// Create pcap directory if it doesn't already exist
-		File pcapDir = new File("logs/pcaps/");
-		if (pcapDir.isFile()) pcapDir.delete();
-		if (!pcapDir.exists()) pcapDir.mkdir();
+		// Create pcap directories if they don't already exist
+		Path pcapDir;
+		try {
+			Path pcapRoot = Paths.get("logs", "pcaps");
+			if (Files.isRegularFile(pcapRoot)) {
+				Files.delete(pcapRoot);
+			}
+			pcapDir = pcapRoot.resolve(Paths.get(serverName, username, yyyyMM));
+			Files.createDirectories(pcapDir);
+		} catch (IOException e) {
+			throw new RuntimeException("Failed to create pcap directory.", e);
+		}
 
 		// Required files
-		File pcapFile = new File( pcapDir.getAbsolutePath() + "/" + fname + ".pcap.gz");
+		File pcapFile = new File(pcapDir.toFile(), fname + ".pcap.gz");
 		try {
 			DataOutputStream pcap = new DataOutputStream(new BufferedOutputStream(new GZIPOutputStream(new FileOutputStream(pcapFile))));
 

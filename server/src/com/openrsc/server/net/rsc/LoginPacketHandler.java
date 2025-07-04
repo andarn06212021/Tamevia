@@ -54,7 +54,10 @@ public class LoginPacketHandler {
 			long startTime = System.currentTimeMillis();
 			String timeStamp = new SimpleDateFormat("yyyy-MM-dd_HH.mm.ss ").format(new Date());
 			String fname = timeStamp + loadedPlayer.getUsername();
-			attachment.pcapLogger.set(new PcapLogger(fname));
+			String serverName = loadedPlayer.getWorld().getServer().getConfig().SERVER_NAME;
+			String yyyyMM = new SimpleDateFormat("yyyy-MM").format(new Date());
+			String username = loadedPlayer.getUsername();
+			attachment.pcapLogger.set(new PcapLogger(serverName, yyyyMM, username, fname));
 
 			com.openrsc.server.net.PacketBuilder s = new com.openrsc.server.net.PacketBuilder();
 			s.setID(VIRTUAL_OPCODE_SERVER_METADATA);
@@ -73,8 +76,6 @@ public class LoginPacketHandler {
 	public void processLogin(Packet packet, Channel channel, Server server) {
 		final String IP = ((InetSocketAddress) channel.remoteAddress()).getAddress().getHostAddress();
 		ConnectionAttachment attachment = channel.attr(RSCConnectionHandler.attachment).get();
-		//ConnectionAttachment attachment = new ConnectionAttachment();
-		//channel.attr(RSCConnectionHandler.attachment).set(attachment);
 		OpcodeIn opcode = ReverseOpcodeLookup.getOpcode(packet.getID());
 		if (opcode == null)
 			return;
