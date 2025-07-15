@@ -1735,10 +1735,10 @@ public class MySqlGameDatabase extends JDBCDatabase {
 			throw new GameDatabaseException(MySqlGameDatabase.class, ex.getMessage());
 		}
 
+		// Step 2: Identify which friends need to be added, updated, or deleted
 		Set<Long> newFriendHashes = new HashSet<>();
 		List<PlayerFriend> toInsert = new ArrayList<>();
 		List<PlayerFriend> toUpdate = new ArrayList<>();
-
 		for (PlayerFriend friend : newFriends) {
 			String username = DataConversions.hashToUsername(friend.playerHash);
 			if (username.equalsIgnoreCase("invalid_name")) continue;
