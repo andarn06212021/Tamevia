@@ -29,7 +29,7 @@ public class MySqlQueries {
 	public final String discordIdToPlayerId, playerIdFromPairToken, pairDiscord, deleteTokenFromCache, watchlist, watchlists, updateWatchlist, deleteWatchlist;
 	public final String save_IronMan, checkMute, updateMute, updatePlayerLocation;
 	public final String selectFriendNameUsername, fixFriendNameCapitalization, insertFormerName, insertLoginAttempt, playerGetFormerNameInvoluntaryChange;
-	public final String save_SelectFriends, save_UpdateFriends, save_DeleteFriendsExcept;
+	public final String save_SelectFriends, save_UpdateFriends, save_DeleteFriendsExcept, save_DeleteFriends;
 	private final Server server;
 
 	public final Server getServer() {
@@ -230,6 +230,7 @@ public class MySqlQueries {
 		save_SelectFriends = "SELECT friend, friendName, friendFormerName FROM `" + PREFIX + "friends` WHERE `playerID` = ?";
 		save_UpdateFriends = "UPDATE `" + PREFIX + "friends` SET `friendName` = ?, `friendFormerName` = ? WHERE `playerID` = ? AND `friend` = ?";
 		save_DeleteFriendsExcept = "DELETE FROM `" + PREFIX + "friends` WHERE `playerID` = ? AND `friend` NOT IN (%s)";
+		save_DeleteFriends = "DELETE FROM friends WHERE playerID = ?";
 
 
 		//unreadMessages = "SELECT COUNT(*) FROM `messages` WHERE showed=0 AND show_message=1 AND owner=?";
