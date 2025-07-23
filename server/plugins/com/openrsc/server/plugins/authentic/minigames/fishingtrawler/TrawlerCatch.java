@@ -50,7 +50,7 @@ public class TrawlerCatch implements OpLocTrigger {
 
 				boolean isFishRoll;
 				for (int fishGiven = 0; fishGiven < fishCaught; fishGiven++) {
-					isFishRoll = DataConversions.random(0,1) == 1;
+					isFishRoll = DataConversions.random(0, 1) == 1;
 					// roll for a fish
 					if (isFishRoll) {
 						if (catchFish(81, player.getSkills().getLevel(Skill.FISHING.id()))) {
@@ -99,8 +99,7 @@ public class TrawlerCatch implements OpLocTrigger {
 							give(player, ItemId.RAW_SHRIMP.id(), 1);
 							player.incExp(Skill.FISHING.id(), 40, false);
 						}
-					}
-					 else {
+					} else {
 						int randomJunkItem = JUNK_ITEMS[DataConversions.random(0, JUNK_ITEMS.length - 1)];
 						if (randomJunkItem == ItemId.EDIBLE_SEAWEED.id()) { // Edible seaweed
 							mes("..some seaweed");
@@ -134,6 +133,7 @@ public class TrawlerCatch implements OpLocTrigger {
 							player.incExp(Skill.FISHING.id(), 5, false);
 						}
 					}
+					player.getCache().set("fishing_trawler_reward", fishCaught - (fishGiven + 1));
 				}
 				player.getCache().remove("fishing_trawler_reward");
 				player.message("that's the lot");
