@@ -836,6 +836,7 @@ public final class Moderator implements CommandTrigger {
 			put("@gre@Total Time Played:@whi@", DataConversions.getDateFromMsec(timePlayed));
 			put("@gre@Connections/s:@whi@", Integer.toString(filter.getConnectionsPerSecond(targetPlayer.getCurrentIP())));
 			put("@gre@Connection Count:@whi@", Integer.toString(filter.getConnectionCount(targetPlayer.getCurrentIP())));
+			put("@gre@Login Count:@whi@", Integer.toString(filter.getPlayersCount(targetPlayer.getCurrentIP())));
 		}};
 		if (player.getClientLimitations().supportsMessageBox) {
 			String infoString = playerInfo.entrySet().stream().map((entry) -> //stream each entry, map it to string value
