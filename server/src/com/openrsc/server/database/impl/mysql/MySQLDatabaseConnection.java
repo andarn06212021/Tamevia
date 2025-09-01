@@ -112,15 +112,38 @@ public class MySQLDatabaseConnection extends JDBCDatabaseConnection {
 	 * do not use it in close() either since it would try to re-open it recursively.
 	 * @return Connection
 	 */
+	@Override
 	public synchronized Connection getConnection() {
-		// If the connection has closed or is no longer valid (doesn't respond within 2 seconds) or a simple SELECT query fails, try re-opening the connection before trying to use it.
-		//Technically we may not need the checkConnection() call here, and in theory it could cause lag because it's running another query entirely every single time, but it's probably fine since it's just a simple SELECT query, and we could just remove the checkConnection call at any time if we needed to.
+		boolean connectionNull = (connection == null);
+		boolean connectionClosed = false;
+		boolean connectionInvalid = false;
+		boolean connectionCheckFailed = false;
 		try {
-			if (connection == null || connection.isClosed() || !connection.isValid(2) || !checkConnection()) {
+			if (!connectionNull) {
+				connectionClosed = connection.isClosed();
+				connectionInvalid = !connection.isValid(2);
+				//Technically we may not need the checkConnection() call here, and in theory it could cause lag because it's running another query entirely every single time, but it's probably fine since it's just a simple SELECT query, and we could just remove the checkConnection call at any time if we needed to.
+				connectionCheckFailed = !checkConnection();
+			}
+
+			if (connectionNull) {
+				LOGGER.warn("MySQL connection is null, going to reconnect...");
+			}
+			if (connectionClosed) {
+				LOGGER.warn("MySQL connection is closed, going to reconnect...");
+			}
+			if (connectionInvalid) {
+				LOGGER.warn("MySQL connection is invalid, going to reconnect...");
+			}
+			if (connectionCheckFailed) {
+				LOGGER.warn("MySQL connection checkConnection() failed, going to reconnect...");
+			}
+			//If the connection has closed or is no longer valid (doesn't respond within 2 seconds) or a simple SELECT query fails, try re-opening the connection before trying to use it.
+			if (connectionNull || connectionClosed || connectionInvalid || connectionCheckFailed) {
 				open();
 			}
-		} catch (SQLException e) {
-			LOGGER.error("Connection check failed, reconnecting...", e);
+		} catch (Exception e) {
+			LOGGER.error("Connection check failed (null={}, closed={}, invalid={}, failed={}), reconnecting...", (connection == null), connectionClosed, connectionInvalid, connectionCheckFailed, e);
 			open();
 		}
 		return connection;
