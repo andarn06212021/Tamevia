@@ -114,6 +114,7 @@ public class MySQLDatabaseConnection extends JDBCDatabaseConnection {
 	 */
 	public synchronized Connection getConnection() {
 		// If the connection has closed or is no longer valid (doesn't respond within 2 seconds) or a simple SELECT query fails, try re-opening the connection before trying to use it.
+		//Technically we may not need the checkConnection() call here, and in theory it could cause lag because it's running another query entirely every single time, but it's probably fine since it's just a simple SELECT query, and we could just remove the checkConnection call at any time if we needed to.
 		try {
 			if (connection == null || connection.isClosed() || !connection.isValid(2) || !checkConnection()) {
 				open();
