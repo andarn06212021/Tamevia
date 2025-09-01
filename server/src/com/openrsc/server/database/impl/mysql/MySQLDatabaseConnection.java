@@ -143,7 +143,7 @@ public class MySQLDatabaseConnection extends JDBCDatabaseConnection {
 				open();
 			}
 		} catch (Exception e) {
-			LOGGER.error("Connection check failed (null={}, closed={}, invalid={}, failed={}), reconnecting...", (connection == null), connectionClosed, connectionInvalid, connectionCheckFailed, e);
+			LOGGER.error("Connection check failed (null={}, closed={}, invalid={}, failed={}), reconnecting...", connectionNull, connectionClosed, connectionInvalid, connectionCheckFailed, e);
 			open();
 		}
 		return connection;
