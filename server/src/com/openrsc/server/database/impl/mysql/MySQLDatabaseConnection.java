@@ -41,7 +41,7 @@ public class MySQLDatabaseConnection extends JDBCDatabaseConnection {
 					+ getServer().getConfig().DB_HOST + "/" + getServer().getConfig().DB_NAME + "?autoReconnect=true&useSSL=false&rewriteBatchedStatements=true&serverTimezone=UTC",
 				getServer().getConfig().DB_USER,
 				getServer().getConfig().DB_PASS);
-			statement = getConnection().createStatement();
+			statement = connection.createStatement();
 			statement.setEscapeProcessing(true);
 			connected = checkConnection();
 		} catch (final SQLException e) {
@@ -69,8 +69,8 @@ public class MySQLDatabaseConnection extends JDBCDatabaseConnection {
 			LOGGER.catching(e);
 		}
 		try {
-			if(getConnection() != null) {
-				getConnection().close();
+			if(connection != null) {
+				connection.close();
 			}
 		} catch (final SQLException e) {
 			LOGGER.catching(e);
@@ -91,6 +91,7 @@ public class MySQLDatabaseConnection extends JDBCDatabaseConnection {
 			getStatement().executeQuery("SELECT CURRENT_DATE");
 			return true;
 		} catch (final SQLException e) {
+			LOGGER.warn("checkConnection() failed", e);
 			return false;
 		}
 	}
@@ -104,7 +105,23 @@ public class MySQLDatabaseConnection extends JDBCDatabaseConnection {
 		return statement;
 	}
 
+	/**
+	 * Get the active MySQL connection. Re-opens the existing MySQL connection if it is closed.
+	 * Warning: Only use this function after the MySQL connection is already active. In other
+	 * words, do not use it when we are still opening the connection like in open() and
+	 * do not use it in close() either since it would try to re-open it recursively.
+	 * @return Connection
+	 */
 	public synchronized Connection getConnection() {
+		// If the connection has closed or is no longer valid (doesn't respond within 2 seconds) or a simple SELECT query fails, try re-opening the connection before trying to use it.
+		try {
+			if (connection == null || connection.isClosed() || !connection.isValid(2) || !checkConnection()) {
+				open();
+			}
+		} catch (SQLException e) {
+			LOGGER.error("Connection check failed, reconnecting...", e);
+			open();
+		}
 		return connection;
 	}
 
