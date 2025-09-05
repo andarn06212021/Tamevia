@@ -2517,7 +2517,7 @@ public final class Player extends Mob {
 								try {
 									couldProcess = PayloadProcessorManager.processed(res, this);
 								} catch (final Exception e) {
-									LOGGER.catching(e);
+									LOGGER.error("Unable to process incoming packets for player with username: {}", username, e);
 									couldProcess = false;
 								}
 								if (!couldProcess) {
@@ -2559,7 +2559,7 @@ public final class Player extends Mob {
 						getWorld().getServer().incrementOutgoingPacketCount(outgoing.getID());
 					}
 				} catch (final Exception e) {
-					LOGGER.catching(e);
+					LOGGER.error("Unable to process outgoing packets for player with username: {}", username, e);
 				}
 				//channel.flush();
 				outgoingPackets.clear();

@@ -162,7 +162,7 @@ public class RSCConnectionHandler extends ChannelInboundHandlerAdapter implement
 				// Log that connection was reset.
 				LOGGER.info(e.getMessage() + " : Remote address " + channel.remoteAddress() + (att == null ? "" : " : Attached Player " + att.player.get()));
 			}
-			LOGGER.catching(e);
+			LOGGER.error("Exception caught in RSCConnectionHandler Network I/O: ", e);
 		}
 
 		if (ctx.channel().isActive()) {

@@ -419,7 +419,7 @@ public final class World implements SimpleSubscriber<FishingTrawler>, Runnable {
 				getCombatOdyssey().load();
 			}
 		} catch (final Exception e) {
-			LOGGER.catching(e);
+			LOGGER.error("Error in World load()", e);
 		}
 	}
 
@@ -647,7 +647,7 @@ public final class World implements SimpleSubscriber<FishingTrawler>, Runnable {
 			}
 		} catch (Exception e) {
 			i.remove();
-			LOGGER.catching(e);
+			LOGGER.error("Exception in registerItem", e);
 		}
 	}
 
@@ -864,8 +864,7 @@ public final class World implements SimpleSubscriber<FishingTrawler>, Runnable {
 						avatarGenerator.generateAvatar(player.getDatabaseID(), player.getSettings().getAppearance(), player.getWornItems());
 					}
 				} catch (final Exception e){
-					LOGGER.error("Error generating avatar: ");
-					LOGGER.catching(e);
+					LOGGER.error("Error generating avatar: ", e);
 				}
 			}
 			player.resetSceneryMorph();
@@ -898,7 +897,7 @@ public final class World implements SimpleSubscriber<FishingTrawler>, Runnable {
 							getServer().getPacketFilter().removePlayerConnPacket(playerChannel);
 						}
 					} catch (Exception e) {
-						LOGGER.catching(e);
+						LOGGER.error("Exception in freeing channel memory", e);
 					} finally {
 						player.unsetChannel();
 						stop();
@@ -906,7 +905,7 @@ public final class World implements SimpleSubscriber<FishingTrawler>, Runnable {
 				}
 			});
 		} catch (final Exception e) {
-			LOGGER.catching(e);
+			LOGGER.error("Exception in unregisterPlayer", e);
 		}
 	}
 

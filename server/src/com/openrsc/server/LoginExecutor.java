@@ -69,7 +69,7 @@ public class LoginExecutor implements Runnable {
 			});
 
 		} catch (final Throwable e) {
-			LOGGER.catching(e);
+			LOGGER.error("Error executing login executor run(): ", e);
 		}
 	}
 
@@ -95,7 +95,7 @@ public class LoginExecutor implements Runnable {
 				LOGGER.error("{} task(s) never commenced execution", skippedTasks.size());
 			}
 		} catch (final InterruptedException e) {
-			LOGGER.catching(e);
+			LOGGER.error("LoginExecutor thread interrupted during stop()");
 		}
 
 		scheduledExecutor = null;

@@ -111,7 +111,7 @@ public class WildernessCycleEvent extends DelayedEvent {
 			}
 
 		} catch (Exception e) {
-			LOGGER.catching(e);
+			LOGGER.error("Error while executing WildernessCycleEvent", e);
 		}
 	}
 

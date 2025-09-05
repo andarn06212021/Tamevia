@@ -176,7 +176,7 @@ public class LoginPacketHandler {
 						int xteaLength = packet.readUnsignedShort();
 						byte[] xteaBlock = Crypto.decryptXTEA(packet.readBytes(xteaLength), 0, xteaLength, loginInfo.keys);
 						// byte limit30 = xteaBlock[0];
-						
+
 						// Read the nonces from the xteaBlock. There should be 24 bytes
 						// We start at index 1 because index 0 is 'limit30"
 						for (int i = 0; i < 6; i++) {
@@ -489,8 +489,7 @@ public class LoginPacketHandler {
 								// Spaces in your password are converted to underscores.
 								password = new String(loginBlock, 0, 20, "UTF8").trim();
 							} catch (Exception e) {
-								LOGGER.info("error parsing password in login block");
-								LOGGER.catching(e);
+								LOGGER.error("error parsing password in login block", e);
 							}
 							String loginDetails = "";
 							int rsaDetailsLength = packet.readUnsignedShort();
@@ -498,8 +497,7 @@ public class LoginPacketHandler {
 							try {
 								 loginDetails = new String(loginDetailsBlock, "UTF8").trim();
 							} catch (Exception e) {
-								LOGGER.info("error parsing details in login block");
-								LOGGER.catching(e);
+								LOGGER.error("error parsing details in login block", e);
 							}
 							LOGGER.info("Login details for " + username + ": " + loginDetails);
 						}
@@ -850,7 +848,7 @@ public class LoginPacketHandler {
 						channel.close();
 
 					} catch (Exception e) {
-						LOGGER.catching(e);
+						LOGGER.error("Exception during inauthentic client forgot password", e);
 						channel.writeAndFlush(new PacketBuilder().writeByte((byte) 0).toPacket());
 						channel.close();
 					}

@@ -57,7 +57,7 @@ public abstract class PluginTask extends GameTickEvent implements Callable<Integ
 			stop();
 			return result;
 		} catch(final Exception ex) {
-			LOGGER.catching(ex);
+			LOGGER.error("Error while executing PluginTask call()", ex);
 			stop();
 			return 0;
 		}

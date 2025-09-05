@@ -307,7 +307,7 @@ public abstract class GameDatabase {
 				initializeOnlinePlayers();
 				open.set(true);
 			} catch (final GameDatabaseException ex) {
-				LOGGER.catching(ex);
+				LOGGER.error("Exception during GameDatabase open", ex);
 				SystemUtil.exit(1);
 			}
 		}
@@ -327,7 +327,7 @@ public abstract class GameDatabase {
 			commitTransaction();
 			return true;
 		} catch(Exception ex) {
-			LOGGER.catching(ex);
+			LOGGER.error("Error during atomically", ex);
 			try {
 				rollbackTransaction();
 				LOGGER.error("Rolling back transaction: ", ex);

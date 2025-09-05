@@ -58,7 +58,7 @@ public abstract class GameTickEvent implements Callable<Integer> {
 		try {
 			doRun();
 		} catch (Exception e) {
-			LOGGER.catching(e);
+			LOGGER.error("Exception while executing GameTickEvent call()", e);
 			stop();
 			return 1;
 		}

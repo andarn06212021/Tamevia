@@ -167,7 +167,7 @@ public final class PluginHandler implements IPluginHandler {
                 LOGGER.error("PluginHandler thread pool termination failed");
             }
         } catch (final InterruptedException e) {
-            LOGGER.catching(e);
+            LOGGER.error("PluginHandler thread pool termination interrupted", e);
         }
 
         server.getWorld().getQuests().clear();
@@ -212,7 +212,7 @@ public final class PluginHandler implements IPluginHandler {
                             invokePluginAction(triggerType, owner, trigger, data, walkToAction);
                         }
                     } catch (final Exception e) {
-                        LOGGER.catching(e);
+                        LOGGER.error("Error while handling shouldBlockDefault plugin: " + simpleName, e);
                     }
                 }
             }
@@ -222,7 +222,7 @@ public final class PluginHandler implements IPluginHandler {
                     invokePluginAction(triggerType, owner, defaultHandler, data, walkToAction);
                 }
             } catch (final Exception e) {
-                LOGGER.catching(e);
+                LOGGER.error("Error while handling shouldBlockDefault false plugin: " + simpleName, e);
             }
 
             return shouldBlockDefault;
@@ -263,11 +263,11 @@ public final class PluginHandler implements IPluginHandler {
                                 // PluginTask.call() will do stop() after this which will correctly shut down the Plugin.
                                 return 1;
                             } else {
-                                LOGGER.catching(ex);
+                                LOGGER.error("InvocationTargetException while handling plugin " + simpleName, ex);
                                 return 0;
                             }
                         } catch (final Exception ex) {
-                            LOGGER.catching(ex);
+                            LOGGER.error("Exception while handling plugin " + simpleName, ex);
                             return 0;
                         }
                     }
@@ -299,8 +299,7 @@ public final class PluginHandler implements IPluginHandler {
                 // there is no action listener defined in Default plugin
             }
         } catch (final Exception e) {
-            System.err.println("Exception at plugin handling: ");
-            LOGGER.catching(e);
+            LOGGER.error("Exception at plugin handling: ", e);
         }
     }
 

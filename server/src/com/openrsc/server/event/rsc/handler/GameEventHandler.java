@@ -59,7 +59,7 @@ public class GameEventHandler {
 				LOGGER.error("GameEventHandler thread pool termination failed");
 			}
 		} catch (final InterruptedException e) {
-			LOGGER.catching(e);
+			LOGGER.error("GameEventHandler thread pool termination interrupted", e);
 		}
 
 		cleanupEvents();
@@ -86,7 +86,7 @@ public class GameEventHandler {
 			try {
 				executor.invokeAll(eventStore.getNonPlayerEvents());
 			} catch (final Exception e) {
-				LOGGER.catching(e);
+				LOGGER.error("Exception while executing GameEventHandler processNonPlayerEvents()", e);
 			}
 		});
 	}
@@ -110,7 +110,7 @@ public class GameEventHandler {
 		try {
 			executor.invokeAll(eventStore.getPlayerEvents(player.getUsernameHash()));
 		} catch (final Exception e) {
-			LOGGER.catching(e);
+			LOGGER.error("Exception while executing GameEventHandler processEvents()", e);
 		}
 	}
 
@@ -121,7 +121,7 @@ public class GameEventHandler {
 				try {
 					r.run();
 				} catch (final Throwable e) {
-					LOGGER.catching(e);
+					LOGGER.error("Exception while executing GameEventHandler submit()", e);
 				}
 			}
 		});

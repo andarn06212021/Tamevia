@@ -86,7 +86,7 @@ public final class GameStateUpdater {
 				updateTimeouts(player);
 			}
 		} catch (final Exception e) {
-			LOGGER.catching(e);
+			LOGGER.error("Exception during GameStateUpdater sendUpdatePackets", e);
 			player.unregister(UnregisterForcefulness.FORCED, "Exception while updating player " + player.getUsername());
 		}
 	}

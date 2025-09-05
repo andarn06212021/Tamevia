@@ -43,7 +43,7 @@ public class RSCSessionIdSender implements Runnable {
 				LOGGER.info("Set int session id for " + ctx.channel().remoteAddress() + ": " + sessionId);
 			}
 		} catch (InterruptedException e) {
-			LOGGER.catching(e);
+			LOGGER.error("InterruptedException in RSCSessionIdSender run()", e);
 		}
 	}
 }

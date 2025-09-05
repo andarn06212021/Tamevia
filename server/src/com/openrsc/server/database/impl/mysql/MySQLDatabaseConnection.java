@@ -32,7 +32,7 @@ public class MySQLDatabaseConnection extends JDBCDatabaseConnection {
 		try {
 			Class.forName("com.mysql.cj.jdbc.Driver");
 		} catch (final ClassNotFoundException e) {
-			LOGGER.catching(e);
+			LOGGER.error("Could not load MySQL driver", e);
 			System.exit(1);
 		}
 
@@ -45,7 +45,7 @@ public class MySQLDatabaseConnection extends JDBCDatabaseConnection {
 			statement.setEscapeProcessing(true);
 			connected = checkConnection();
 		} catch (final SQLException e) {
-			LOGGER.catching(e);
+			LOGGER.error("Could not connect to database", e);
 			connected = false;
 		}
 
@@ -66,14 +66,14 @@ public class MySQLDatabaseConnection extends JDBCDatabaseConnection {
 				statement.close();
 			}
 		} catch (final SQLException e) {
-			LOGGER.catching(e);
+			LOGGER.error("Could not close MySQL statement", e);
 		}
 		try {
 			if(connection != null) {
 				connection.close();
 			}
 		} catch (final SQLException e) {
-			LOGGER.catching(e);
+			LOGGER.error("Could not close MySQL connection", e);
 		}
 		connected = false;
 		statement = null;

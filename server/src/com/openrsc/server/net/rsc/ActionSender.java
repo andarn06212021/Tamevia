@@ -2152,7 +2152,7 @@ public class ActionSender {
 				player.getChannel().close();
 			}
 		} catch (Throwable e) {
-			LOGGER.catching(e);
+			LOGGER.error("Exception during ActionSender sendLogin()", e);
 		}
 	}
 

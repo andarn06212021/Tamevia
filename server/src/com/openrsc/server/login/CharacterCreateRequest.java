@@ -212,7 +212,7 @@ public class CharacterCreateRequest extends LoginExecutorProcess{
 				LOGGER.info(getIpAddress() + " - Registration successful");
 				getChannel().writeAndFlush(new PacketBuilder().writeByte((byte) 0).toPacket());
 			} catch (Exception e) {
-				LOGGER.catching(e);
+				LOGGER.error("Error while registering {}: ", getUsername(), e);
 				getChannel().writeAndFlush(new PacketBuilder().writeByte((byte) 5).toPacket());
 				getChannel().close();
 			}
@@ -304,7 +304,7 @@ public class CharacterCreateRequest extends LoginExecutorProcess{
 				return (byte) RegisterLoginResponse.UNSUCCESSFUL;
 			}
 		} catch (GameDatabaseException e) {
-			LOGGER.catching(e);
+			LOGGER.error("Database Exception during validateRegsiter()", e);
 			return (byte) RegisterLoginResponse.UNSUCCESSFUL;
 		}
 

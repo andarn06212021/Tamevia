@@ -272,7 +272,7 @@ public abstract class LoginRequest extends LoginExecutorProcess{
 
 
 		} catch (GameDatabaseException e) {
-			LOGGER.catching(e);
+			LOGGER.error("Database Exception during validateLogin", e);
 			return new ValidatedLogin(LoginResponse.LOGIN_UNSUCCESSFUL);
 		}
 

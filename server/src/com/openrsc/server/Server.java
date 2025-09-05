@@ -208,7 +208,7 @@ public class Server implements Runnable {
 				try {
 					startServer(getDefaultConfigFileName());
 				} catch (final Throwable t) {
-					LOGGER.catching(t);
+					LOGGER.error("Exception starting server with default config", t);
 					SystemUtil.exit(1);
 				}
 			} else {
@@ -216,7 +216,7 @@ public class Server implements Runnable {
 					try {
 						startServer(configuration);
 					} catch (final Throwable t) {
-						LOGGER.catching(t);
+						LOGGER.error("Exception starting server with a configuration file", t);
 						SystemUtil.exit(1);
 					}
 				}
@@ -234,7 +234,7 @@ public class Server implements Runnable {
 				}
 			}
 		} catch(Exception ex) {
-			LOGGER.error("Error starting server: ", ex);
+			LOGGER.error("Exception starting server: ", ex);
 			SystemUtil.exit(1);
 		}
 
@@ -341,7 +341,7 @@ public class Server implements Runnable {
 				try {
 					getDatabase().open();
 				} catch (final Exception ex) {
-					LOGGER.catching(ex);
+					LOGGER.error("Exception opening database", ex);
 					SystemUtil.exit(1);
 				}
 				LOGGER.info("Database Connection Completed");
@@ -546,7 +546,7 @@ public class Server implements Runnable {
 				lastTickTimestamp = serverStartedTime = System.nanoTime();
 				running.set(true);
 			} catch (final Throwable t) {
-				LOGGER.catching(t);
+				LOGGER.error("Exception in server start", t);
 				SystemUtil.exit(1);
 			}
 		}
@@ -570,7 +570,7 @@ public class Server implements Runnable {
 						LOGGER.error("{} task(s) never commenced execution, forcing shutdown", skippedTasks.size());
 					}
 				} catch (final InterruptedException e) {
-					LOGGER.catching(e);
+					LOGGER.error("Exception during task shutdown", e);
 				}
 				getLoginExecutor().stop();
 				if (getDiscordService() != null) {
@@ -625,7 +625,7 @@ public class Server implements Runnable {
 
 				LOGGER.info("Server unloaded");
 			} catch (final Throwable t) {
-				LOGGER.catching(t);
+				LOGGER.error("Exception during Server stop()", t);
 				SystemUtil.exit(1);
 			}
 		}
@@ -692,7 +692,7 @@ public class Server implements Runnable {
 										if (config.WANT_DISCORD_GENERAL_LOGGING) {
 											getDiscordService().playerLog((Player)npc.getOpponent(), "An NPC with ID " + npc.getID() + ":" + npc.getIndex() + " @ " + npc.getX() + "," + npc.getY() + " was stuck, and should be unstuck now. You have some debugging still to do.");
 										}
-										
+
 										if (npc.getSkills().getLevel(Skill.HITS.id()) <= 0) {
 											npc.killedBy(npc.getOpponent()); // possibly not actually who killed them e.g. ranged/mage kill
 										}
@@ -703,7 +703,7 @@ public class Server implements Runnable {
 							// TODO: end remove section
 
 						} catch (final Throwable t) {
-							LOGGER.catching(t);
+							LOGGER.error("Exception in server tick", t);
 						}
 					});
 
@@ -738,7 +738,7 @@ public class Server implements Runnable {
 					}
 				}
 			} catch (final Throwable t) {
-				LOGGER.catching(t);
+				LOGGER.error("Exception in Server run()", t);
 			}
 		}
 	}

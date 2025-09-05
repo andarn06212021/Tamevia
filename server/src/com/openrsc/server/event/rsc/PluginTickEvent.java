@@ -45,7 +45,7 @@ public class PluginTickEvent extends GameTickEvent {
 				//LOGGER.info(getDescriptor() + " tick " + getWorld().getServer().getCurrentTick() + " waiting for PluginTask on tick " + " (" + getPluginTask().isInitialized() + ", " + getPluginTask().isThreadRunning() + ", " + getPluginTask().isComplete() + ")");
 				Thread.sleep(1);
 			} catch (final InterruptedException ex) {
-				LOGGER.catching(ex);
+				LOGGER.error("Interrupted while waiting for plugin task to complete in run()", ex);
 			}
 		}
 

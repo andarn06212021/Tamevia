@@ -56,7 +56,7 @@ public final class PcapLoggerService implements Runnable {
 					LOGGER.error("{} task(s) never commenced execution", skippedTasks.size());
 				}
 			} catch (final InterruptedException e) {
-				LOGGER.catching(e);
+				LOGGER.error("PcapLoggerService thread termination interrupted", e);
 			}
 			clearJobs();
 			scheduledExecutor = null;

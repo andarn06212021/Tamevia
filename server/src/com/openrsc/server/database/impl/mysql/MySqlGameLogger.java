@@ -71,7 +71,7 @@ public final class MySqlGameLogger extends GameLogger {
 					LOGGER.error("{} task(s) never commenced execution", skippedTasks.size());
 				}
 			} catch (final InterruptedException e) {
-				LOGGER.catching(e);
+				LOGGER.error("MySqlGameLogger thread interrupted during stop()");
 			}
 			clearQueries();
 			scheduledExecutor = null;
@@ -116,7 +116,7 @@ public final class MySqlGameLogger extends GameLogger {
 		/*} catch (final GameDatabaseException ex) {
 			LOGGER.catching(ex);
 		*/} catch (final Exception ex) {
-			LOGGER.catching(ex);
+			LOGGER.error("Error executing runQuery", ex);
 			if (server.getDiscordService() != null && server.getConfig().WANT_DISCORD_GENERAL_LOGGING) {
 				server.getDiscordService().errorLogStackTrace(ex);
 			}
