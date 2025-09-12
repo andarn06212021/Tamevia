@@ -2544,7 +2544,7 @@ public final class Player extends Mob {
 		}*/
 
 		return getWorld().getServer().bench(() -> {
-			if (!channel.isOpen() || !isLoggedIn() || !channel.isActive() || !channel.isWritable()) {
+			if (channel == null || !channel.isOpen() || !isLoggedIn() || !channel.isActive() || !channel.isWritable()) {
 				return;
 			}
 			synchronized (outgoingPackets) {

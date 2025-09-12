@@ -871,8 +871,12 @@ public final class World implements SimpleSubscriber<FishingTrawler>, Runnable {
 			player.logout();
 			LOGGER.info("Unregistered " + player.getUsername() + " from player list.");
 
+			if (player.getChannel() == null) {
+				LOGGER.warn("Warning: getChannel() is already null for " + player.getUsername());
+			}
+
 			if (getServer().getConfig().WANT_PCAP_LOGGING) {
-				if (player.getChannel().attr(attachment).get() != null) {
+				if (player.getChannel() != null && player.getChannel().attr(attachment).get() != null) {
 					PcapLogger pcap = player.getChannel().attr(attachment).get().pcapLogger.get();
 
 					getServer().getPcapLogger().addJob(pcap::exportPCAP);
