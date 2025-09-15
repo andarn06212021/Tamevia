@@ -15,6 +15,10 @@ public abstract class JDBCDatabaseConnection {
         return getStatement().executeQuery(string);
     }
 
+	public void execute(final String string) throws SQLException {
+		getStatement().execute(string);
+	}
+
     /**
      * Create a Prepared Statement
      *

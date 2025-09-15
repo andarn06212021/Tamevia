@@ -68,7 +68,7 @@ public class MySqlGameDatabase extends JDBCDatabase {
 
 	protected void startTransaction() throws GameDatabaseException {
 		try {
-			getConnection().executeQuery("START TRANSACTION");
+			getConnection().execute("START TRANSACTION");
 		} catch (final SQLException ex) {
 			// Convert SQLException to a general usage exception
 			throw new GameDatabaseException(MySqlGameDatabase.class, ex.getMessage());
@@ -77,7 +77,7 @@ public class MySqlGameDatabase extends JDBCDatabase {
 
 	protected void commitTransaction() throws GameDatabaseException {
 		try {
-			getConnection().executeQuery("COMMIT");
+			getConnection().execute("COMMIT");
 		} catch (final SQLException ex) {
 			// Convert SQLException to a general usage exception
 			throw new GameDatabaseException(MySqlGameDatabase.class, ex.getMessage());
@@ -86,7 +86,7 @@ public class MySqlGameDatabase extends JDBCDatabase {
 
 	protected void rollbackTransaction() throws GameDatabaseException {
 		try {
-			getConnection().executeQuery("ROLLBACK");
+			getConnection().execute("ROLLBACK");
 		} catch (final SQLException ex) {
 			// Convert SQLException to a general usage exception
 			throw new GameDatabaseException(MySqlGameDatabase.class, ex.getMessage());

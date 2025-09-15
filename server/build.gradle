@@ -36,7 +36,7 @@ dependencies {
     implementation "org.gitlab4j:gitlab4j-api:4.12.17"
 
     // Others
-    implementation group: 'mysql', name: 'mysql-connector-java', version: '5.1.40'
+    implementation group: 'mysql', name: 'mysql-connector-j', version: '9.4.0'
 //    implementation "org.mariadb.jdbc:mariadb-java-client:2.1.2"
     implementation "org.xerial:sqlite-jdbc:3.34.0"
 
