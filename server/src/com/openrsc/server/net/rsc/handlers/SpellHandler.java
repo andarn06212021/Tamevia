@@ -1034,6 +1034,15 @@ public class SpellHandler implements PayloadProcessor<SpellStruct, OpcodeIn> {
 			player.playerServerMessage(MessageType.QUEST, "That's already made of gold!");
 			return;
 		}
+		if (player.getConfig().WANT_OPENPK_POINTS) {
+			for (Item starter : player.getWorld().getServer().getConstants().OPENPK_STARTER_ITEMS) {
+				if (starter == null) continue;
+				if (starter.getCatalogId() == affectedItem.getCatalogId()) {
+					player.message("You can't alch starter items.");
+					return;
+				}
+			}
+		}
 		if (affectedItem.getNoted()) {
 			player.message("You can't alch noted items");
 			return;
@@ -1057,6 +1066,15 @@ public class SpellHandler implements PayloadProcessor<SpellStruct, OpcodeIn> {
 		if (affectedItem.getCatalogId() == ItemId.COINS.id()) {
 			player.playerServerMessage(MessageType.QUEST, "That's already made of gold!");
 			return;
+		}
+		if (player.getConfig().WANT_OPENPK_POINTS) {
+			for (Item starter : player.getWorld().getServer().getConstants().OPENPK_STARTER_ITEMS) {
+				if (starter == null) continue;
+				if (starter.getCatalogId() == affectedItem.getCatalogId()) {
+					player.message("You can't alch starter items.");
+					return;
+				}
+			}
 		}
 		if (affectedItem.getNoted()) {
 			player.message("You can't alch noted items");

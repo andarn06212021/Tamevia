@@ -16,7 +16,7 @@ public final class LowesArcheryOpenPk extends AbstractShop {
 
 	private final Shop shop = new Shop(false, 3000, 100, 55, 1, new Item(ItemId.IRON_ARROWS.id(),
 		2000), new Item(ItemId.STEEL_ARROWS.id(), 1500), new Item(ItemId.SHORTBOW.id(), 100), new Item(
-		ItemId.LONGBOW.id(), 100), new Item(ItemId.WILLOW_LONGBOW.id(), 100), new Item(ItemId.WILLOW_SHORTBOW.id(), 100), new Item(ItemId.MAGIC_LONGBOW.id(), 100), new Item(ItemId.MAGIC_SHORTBOW.id(), 100));
+		ItemId.LONGBOW.id(), 100), new Item(ItemId.WILLOW_SHORTBOW.id(), 100), new Item(ItemId.WILLOW_LONGBOW.id(), 100), new Item(ItemId.MAPLE_SHORTBOW.id(), 100), new Item(ItemId.MAPLE_LONGBOW.id(), 100), new Item(ItemId.YEW_SHORTBOW.id(), 100), new Item(ItemId.YEW_LONGBOW.id(), 100), new Item(ItemId.MAGIC_LONGBOW.id(), 100), new Item(ItemId.MAGIC_SHORTBOW.id(), 100));
 
 	@Override
 	public boolean blockTalkNpc(final Player player, final Npc n) {

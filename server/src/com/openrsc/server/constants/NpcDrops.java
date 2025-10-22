@@ -145,25 +145,28 @@ public class NpcDrops {
 	}
 
 	private void createArrowsRunesDropTable() {
-        arrowsRunesDropTable = new DropTable("Arrows & Runes Drop Table");
-        // Chaos runes (24 weight total)
-        arrowsRunesDropTable.addItemDrop(ItemId.CHAOS_RUNE.id(), 10, 18);
-        arrowsRunesDropTable.addItemDrop(ItemId.CHAOS_RUNE.id(), 30, 6);
-        // Blood runes (12 weight total)
-        arrowsRunesDropTable.addItemDrop(ItemId.BLOOD_RUNE.id(), 5, 8);
-        arrowsRunesDropTable.addItemDrop(ItemId.BLOOD_RUNE.id(), 10, 4);
-        // Arrows ≥ Mithril
-        // Mithril arrows (28)
-        arrowsRunesDropTable.addItemDrop(ItemId.MITHRIL_ARROWS.id(), 50, 20);
-        arrowsRunesDropTable.addItemDrop(ItemId.MITHRIL_ARROWS.id(), 100, 8);
-        // Adamantite arrows (22)
-        arrowsRunesDropTable.addItemDrop(ItemId.ADAMANTITE_ARROWS.id(), 40, 16);
-        arrowsRunesDropTable.addItemDrop(ItemId.ADAMANTITE_ARROWS.id(), 80, 6);
-        // Rune arrows (15)
-        arrowsRunesDropTable.addItemDrop(ItemId.RUNE_ARROWS.id(), 30, 10);
-        arrowsRunesDropTable.addItemDrop(ItemId.RUNE_ARROWS.id(), 60, 5);
-        // Current weight sum (without dragon arrows) = 101 → empty = 27
-        arrowsRunesDropTable.addEmptyDrop(128 - arrowsRunesDropTable.getTotalWeight());
+		arrowsRunesDropTable = new DropTable("Arrows & Runes Drop Table");
+		// Chaos runes (24 weight total)
+		arrowsRunesDropTable.addItemDrop(ItemId.CHAOS_RUNE.id(), 10, 18);
+		arrowsRunesDropTable.addItemDrop(ItemId.CHAOS_RUNE.id(), 30, 6);
+		// Blood runes (12 weight total)
+		arrowsRunesDropTable.addItemDrop(ItemId.BLOOD_RUNE.id(), 5, 8);
+		arrowsRunesDropTable.addItemDrop(ItemId.BLOOD_RUNE.id(), 10, 4);
+		// Nature runes (8 weight total)
+		arrowsRunesDropTable.addItemDrop(ItemId.NATURE_RUNE.id(), 5, 6);
+		arrowsRunesDropTable.addItemDrop(ItemId.NATURE_RUNE.id(), 15, 2);
+		// Arrows ≥ Mithril
+		// Mithril arrows (28)
+		arrowsRunesDropTable.addItemDrop(ItemId.MITHRIL_ARROWS.id(), 50, 20);
+		arrowsRunesDropTable.addItemDrop(ItemId.MITHRIL_ARROWS.id(), 100, 8);
+		// Adamantite arrows (22)
+		arrowsRunesDropTable.addItemDrop(ItemId.ADAMANTITE_ARROWS.id(), 40, 16);
+		arrowsRunesDropTable.addItemDrop(ItemId.ADAMANTITE_ARROWS.id(), 80, 6);
+		// Rune arrows (15)
+		arrowsRunesDropTable.addItemDrop(ItemId.RUNE_ARROWS.id(), 30, 10);
+		arrowsRunesDropTable.addItemDrop(ItemId.RUNE_ARROWS.id(), 60, 5);
+		// Current weight sum (without dragon arrows) = 109 → empty = 19
+		arrowsRunesDropTable.addEmptyDrop(128 - arrowsRunesDropTable.getTotalWeight());
 	}
 
 	private void createHerbDropTable() {
@@ -1560,10 +1563,9 @@ public class NpcDrops {
 			currentNpcDrops.addItemDrop(ItemId.RUNE_LONG_SWORD.id(), 1, 10);
 			currentNpcDrops.addItemDrop(ItemId.ADAMANTITE_PLATE_MAIL_BODY.id(), 1, 9);
 			currentNpcDrops.addItemDrop(ItemId.ADAMANTITE_AXE.id(), 1, 2);
-			currentNpcDrops.addItemDrop(ItemId.IRON_ARROWS.id(), 690, 10);
 			currentNpcDrops.addItemDrop(ItemId.LAW_RUNE.id(), 10, 5);
 		}
-		
+
 		currentNpcDrops.addItemDrop(ItemId.DRAGON_MEDIUM_HELMET.id(), 1, 1);
 		currentNpcDrops.addItemDrop(ItemId.MITHRIL_BATTLE_AXE.id(), 1, 1);
 		currentNpcDrops.addItemDrop(ItemId.IRON_ARROWS.id(), 690, 10);
