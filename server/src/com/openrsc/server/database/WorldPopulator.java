@@ -243,6 +243,9 @@ public final class WorldPopulator {
 					if (getWorld().getServer().getConfig().WANT_PK_BOTS) {
 						loadNpcLocs(getWorld().getServer().getConfig().CONFIG_DIR + "/defs/locs/NpcLocsPkBots.json");
 					}
+					if (getWorld().getServer().getConfig().WANT_OPENPK_POINTS) {
+						loadNpcLocs(getWorld().getServer().getConfig().CONFIG_DIR + "/defs/locs/NpcLocsOpenPk.json");
+					}
 				}
 				if (getWorld().getServer().getConfig().LOCATION_DATA == 2) {
 					if (getWorld().getServer().getConfig().WANT_DECORATED_MOD_ROOM) {

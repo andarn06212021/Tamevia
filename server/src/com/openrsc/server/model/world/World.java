@@ -145,6 +145,12 @@ public final class World implements SimpleSubscriber<FishingTrawler>, Runnable {
 		this.avatarGenerator = config.AVATAR_GENERATOR ? new AvatarGenerator(this) : null;
 		this.market = config.SPAWN_AUCTION_NPCS ? new Market(this) : null;
 		this.maxBankSize = config.MEMBER_WORLD ? (config.WANT_CUSTOM_BANKS ? ItemId.maxCustom : 192) : 48;
+
+		// Turn off god spells in open pk worlds
+		if(config.WANT_OPENPK_POINTS) {
+			godSpellsStart = 60;
+			godSpellsMax = 60;
+		}
 	}
 
 	/**

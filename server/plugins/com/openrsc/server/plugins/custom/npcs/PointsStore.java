@@ -89,18 +89,8 @@ public final class PointsStore extends AbstractShop {
 		if (storeOwner == null) return;
 		Shop shop = getShop(n, player);
 		if (player.getConfig().WANT_OPENPK_POINTS) {
-			npcsay(player, n, "Would you like to sell your points for Gp?", "1 Gp costs " + player.getConfig().OPENPK_POINTS_TO_GP_RATIO + " Points.");
-			int option = multi(player, n, false,
-				"Yes please", "No thanks", "I would like to see your items for sale");
-			if (option == 0) {
-				say(player, n, "Yes Please");
-				ActionSender.showPointsToGp(player);
-			} else if (option == 1) {
-				say(player, n, "No thanks");
-			} else if (option == 2) {
-				player.setAccessingShop(shop);
-				ActionSender.showShop(player, shop);
-			}
+			player.setAccessingShop(shop);
+			ActionSender.showShop(player, shop);
 		}
 	}
 

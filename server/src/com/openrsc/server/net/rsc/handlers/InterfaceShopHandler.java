@@ -223,7 +223,8 @@ public final class InterfaceShopHandler implements PayloadProcessor<ShopStruct, 
 	}
 
 	private void sellShopItem(Player player, Shop shop, ItemDefinition def, int catalogID, int amount) {
-		if ((def.isUntradable() && !player.getWorld().getServer().getConfig().CAN_OFFER_UNTRADEABLES) || !shop.shouldStock(catalogID)) {
+		boolean isOpenPk = player.getConfig().WANT_OPENPK_POINTS; // Disable selling to shops if using OpenPk config
+		if ((def.isUntradable() && !player.getWorld().getServer().getConfig().CAN_OFFER_UNTRADEABLES) || !shop.shouldStock(catalogID) || isOpenPk) {
 			player.message("This object can't be sold in shops");
 			return;
 		}

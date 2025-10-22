@@ -387,7 +387,7 @@ public class Npc extends Mob {
 
 	public void dropItems(Player owner) {
 		/* 1. Custom Rare Drops */
-		if (getConfig().WANT_CUSTOM_SPRITES) {
+		if (getConfig().WANT_CUSTOM_SPRITES && !getConfig().WANT_OPENPK_POINTS) {
 			if (this.getID() == NpcId.KING_BLACK_DRAGON.id()) {
 				calculateCustomKingBlackDragonDrop(owner); // Custom KDB Specific RDT
 			}

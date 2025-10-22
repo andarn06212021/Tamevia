@@ -1638,13 +1638,16 @@ public class SpellHandler implements PayloadProcessor<SpellStruct, OpcodeIn> {
 							getPlayer().message("you must weild the staff of zamorak to cast this spell");
 							return;
 						}
-					/*if (player.getLocation().inWilderness() && !player.getLocation().inMageArena()
-							&& (player.getLocation().wildernessLevel() < World.godSpellsStart
-									|| player.getLocation().wildernessLevel() > World.godSpellsMax)) {
-						player.message("God spells can only be used in wild levels: " + World.godSpellsStart + " - "
-								+ World.godSpellsMax);
-						return;
-					}*/
+
+						if(getPlayer().getConfig().WANT_OPENPK_POINTS) {
+							if (getPlayer().getLocation().inWilderness() && !getPlayer().getLocation().inMageArena()
+								&& (getPlayer().getLocation().wildernessLevel() < getPlayer().getWorld().godSpellsStart
+										|| getPlayer().getLocation().wildernessLevel() > getPlayer().getWorld().godSpellsMax)) {
+							getPlayer().message("God spells can only be used in wild levels: " + getPlayer().getWorld().godSpellsStart + " - "
+									+ getPlayer().getWorld().godSpellsMax);
+								return;
+							}
+						}
 
 						if (!getPlayer().getLocation().inMageArena()) {
 							if ((!getPlayer().getCache().hasKey(spell.getName() + "_casts"))
