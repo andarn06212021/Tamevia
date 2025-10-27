@@ -741,6 +741,7 @@ public class InterfaceOptionHandler implements PayloadProcessor<OptionsStruct, O
 			player.message("Please enter a positive number.");
 			return;
 		}
+
 		switch (PointsOptions.getById(option)) {
 			case REDUCE_DEFENSE:
 				int amount1 = payload.amount;
@@ -750,13 +751,17 @@ public class InterfaceOptionHandler implements PayloadProcessor<OptionsStruct, O
 				}
 				player.getSkills().reduceExperience(Skill.DEFENSE.id(), amountx1);
 				player.getSkills().reduceExperience(Skill.HITS.id(), amountx1 / 3);
-				if(player.getSkills().getMaxStat(Skill.HITS.id()) < 10) {
+				if (player.getSkills().getMaxStat(Skill.HITS.id()) < 10) {
 					player.getSkills().setSkill(Skill.HITS.id(), 10, 4616);
+				}
+				if (player.getSkills().getExperience(Skill.HITS.id()) < 1154) {
+					player.getSkills().setExperience(Skill.HITS.id(), 1154);
 				}
 				player.addOpenPkPoints(amount1);
 				ActionSender.sendPoints(player);
 				player.checkEquipment();
-			break;
+				break;
+
 			case INCREASE_DEFENSE:
 				int amount = payload.amount;
 				int amountx = amount * 4;
@@ -767,7 +772,8 @@ public class InterfaceOptionHandler implements PayloadProcessor<OptionsStruct, O
 				player.getSkills().addExperience(Skill.HITS.id(), amountx / 3);
 				player.subtractOpenPkPoints(amount);
 				ActionSender.sendPoints(player);
-			break;
+				break;
+
 			case INCREASE_ATTACK:
 				int amount0 = payload.amount;
 				int amountx0 = amount0 * 4;
@@ -778,7 +784,8 @@ public class InterfaceOptionHandler implements PayloadProcessor<OptionsStruct, O
 				player.getSkills().addExperience(Skill.HITS.id(), amountx0 / 3);
 				player.subtractOpenPkPoints(amount0);
 				ActionSender.sendPoints(player);
-			break;
+				break;
+
 			case INCREASE_STRENGTH:
 				int amount2 = payload.amount;
 				int amountx2 = amount2 * 4;
@@ -789,7 +796,8 @@ public class InterfaceOptionHandler implements PayloadProcessor<OptionsStruct, O
 				player.getSkills().addExperience(Skill.HITS.id(), amountx2 / 3);
 				player.subtractOpenPkPoints(amount2);
 				ActionSender.sendPoints(player);
-			break;
+				break;
+
 			case INCREASE_RANGED:
 				int amount3 = payload.amount;
 				int amountx3 = amount3 * 4;
@@ -799,7 +807,8 @@ public class InterfaceOptionHandler implements PayloadProcessor<OptionsStruct, O
 				player.getSkills().addExperience(Skill.RANGED.id(), amountx3);
 				player.subtractOpenPkPoints(amount3);
 				ActionSender.sendPoints(player);
-			break;
+				break;
+
 			case INCREASE_PRAYER:
 				int amount4 = payload.amount;
 				int amountx4 = amount4 * 4;
@@ -807,9 +816,21 @@ public class InterfaceOptionHandler implements PayloadProcessor<OptionsStruct, O
 					return;
 				}
 				player.getSkills().addExperience(Skill.PRAYER.id(), amountx4);
+				int maxPrayInc = player.getSkills().getMaxStat(Skill.PRAYER.id());
+				int curPrayInc = player.getSkills().getLevel(Skill.PRAYER.id());
+				if (maxPrayInc < 1) {
+					player.getSkills().setSkill(Skill.PRAYER.id(), 1, 0);
+					maxPrayInc = 1;
+				}
+				if (curPrayInc > maxPrayInc) {
+					player.getSkills().setLevel(Skill.PRAYER.id(), maxPrayInc);
+				} else if (curPrayInc < 0) {
+					player.getSkills().setLevel(Skill.PRAYER.id(), 0);
+				}
 				player.subtractOpenPkPoints(amount4);
 				ActionSender.sendPoints(player);
-			break;
+				break;
+
 			case INCREASE_MAGIC:
 				int amount5 = payload.amount;
 				int amountx5 = amount5 * 4;
@@ -819,7 +840,8 @@ public class InterfaceOptionHandler implements PayloadProcessor<OptionsStruct, O
 				player.getSkills().addExperience(Skill.MAGIC.id(), amountx5);
 				player.subtractOpenPkPoints(amount5);
 				ActionSender.sendPoints(player);
-			break;
+				break;
+
 			case REDUCE_ATTACK:
 				int amount00 = payload.amount;
 				int amountx00 = amount00 * 4;
@@ -828,13 +850,17 @@ public class InterfaceOptionHandler implements PayloadProcessor<OptionsStruct, O
 				}
 				player.getSkills().reduceExperience(Skill.ATTACK.id(), amountx00);
 				player.getSkills().reduceExperience(Skill.HITS.id(), amountx00 / 3);
-				if(player.getSkills().getMaxStat(Skill.HITS.id()) < 10) {
+				if (player.getSkills().getMaxStat(Skill.HITS.id()) < 10) {
 					player.getSkills().setSkill(Skill.HITS.id(), 10, 4616);
+				}
+				if (player.getSkills().getExperience(Skill.HITS.id()) < 1154) {
+					player.getSkills().setExperience(Skill.HITS.id(), 1154);
 				}
 				player.addOpenPkPoints(amount00);
 				ActionSender.sendPoints(player);
 				player.checkEquipment();
-			break;
+				break;
+
 			case REDUCE_STRENGTH:
 				int amount22 = payload.amount;
 				int amountx22 = amount22 * 4;
@@ -843,13 +869,17 @@ public class InterfaceOptionHandler implements PayloadProcessor<OptionsStruct, O
 				}
 				player.getSkills().reduceExperience(Skill.STRENGTH.id(), amountx22);
 				player.getSkills().reduceExperience(Skill.HITS.id(), amountx22 / 3);
-				if(player.getSkills().getMaxStat(Skill.HITS.id()) < 10) {
+				if (player.getSkills().getMaxStat(Skill.HITS.id()) < 10) {
 					player.getSkills().setSkill(Skill.HITS.id(), 10, 4616);
+				}
+				if (player.getSkills().getExperience(Skill.HITS.id()) < 1154) {
+					player.getSkills().setExperience(Skill.HITS.id(), 1154);
 				}
 				player.addOpenPkPoints(amount22);
 				ActionSender.sendPoints(player);
 				player.checkEquipment();
-			break;
+				break;
+
 			case REDUCE_RANGED:
 				int amount33 = payload.amount;
 				int amountx33 = amount33 * 4;
@@ -860,7 +890,8 @@ public class InterfaceOptionHandler implements PayloadProcessor<OptionsStruct, O
 				player.addOpenPkPoints(amount33);
 				ActionSender.sendPoints(player);
 				player.checkEquipment();
-			break;
+				break;
+
 			case REDUCE_PRAYER:
 				int amount44 = payload.amount;
 				int amountx44 = amount44 * 4;
@@ -868,10 +899,22 @@ public class InterfaceOptionHandler implements PayloadProcessor<OptionsStruct, O
 					return;
 				}
 				player.getSkills().reduceExperience(Skill.PRAYER.id(), amountx44);
+				int maxPray = player.getSkills().getMaxStat(Skill.PRAYER.id());
+				int curPray = player.getSkills().getLevel(Skill.PRAYER.id());
+				if (maxPray < 1) {
+					player.getSkills().setSkill(Skill.PRAYER.id(), 1, 0);
+					maxPray = 1;
+				}
+				if (curPray > maxPray) {
+					player.getSkills().setLevel(Skill.PRAYER.id(), maxPray);
+				} else if (curPray < 0) {
+					player.getSkills().setLevel(Skill.PRAYER.id(), 0);
+				}
 				player.addOpenPkPoints(amount44);
 				ActionSender.sendPoints(player);
 				player.checkEquipment();
-			break;
+				break;
+
 			case REDUCE_MAGIC:
 				int amount55 = payload.amount;
 				int amountx55 = amount55 * 4;
@@ -882,14 +925,15 @@ public class InterfaceOptionHandler implements PayloadProcessor<OptionsStruct, O
 				player.addOpenPkPoints(amount55);
 				ActionSender.sendPoints(player);
 				player.checkEquipment();
-			break;
+				break;
+
 			case POINTS_TO_GP:
 				int amount28 = payload.amount;
-				if(player.getDuel().isDuelActive()){
+				if (player.getDuel().isDuelActive()) {
 					player.message("You cannot do that while dueling");
 					return;
 				}
-				if(player.inCombat()){
+				if (player.inCombat()) {
 					player.message("You cannot do that whilst fighting");
 					return;
 				}
@@ -898,23 +942,23 @@ public class InterfaceOptionHandler implements PayloadProcessor<OptionsStruct, O
 					player.message("You can't convert that many points at once!");
 					player.message("Your converted points has been adjusted to " + amount28);
 				}
-				if(player.getOpenPkPoints() < ((long) amount28) * player.getConfig().OPENPK_POINTS_TO_GP_RATIO){
+				if (player.getOpenPkPoints() < ((long) amount28) * player.getConfig().OPENPK_POINTS_TO_GP_RATIO) {
 					player.message("You do not have enough points!");
 					return;
 				}
 				Item item = new Item(ItemId.COINS.id(), amount28);
-				if(player.getCarriedItems().getInventory().canHold(item)){
+				if (player.getCarriedItems().getInventory().canHold(item)) {
 					player.getCarriedItems().getInventory().add(item, false);
 					ActionSender.sendInventory(player);
 				} else {
 					player.getWorld().registerItem(
-					new GroundItem(player.getWorld(), ItemId.COINS.id(), player.getX(), player.getY(), amount28, player),
-					player.getConfig().GAME_TICK * 145);
+						new GroundItem(player.getWorld(), ItemId.COINS.id(), player.getX(), player.getY(), amount28, player),
+						player.getConfig().GAME_TICK * 145);
 					player.message("You don't have room to hold the gp. It falls to the ground!");
 				}
 				player.subtractOpenPkPoints(((long) amount28) * player.getConfig().OPENPK_POINTS_TO_GP_RATIO);
 				ActionSender.sendPoints(player);
-			break;
+				break;
 		}
 	}
 
