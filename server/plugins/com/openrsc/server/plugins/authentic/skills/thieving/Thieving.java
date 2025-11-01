@@ -638,7 +638,7 @@ public class Thieving implements OpLocTrigger, OpNpcTrigger, OpBoundTrigger {
 				break;
 		}
 		if (click == 0) {
-			if (goThrough) {
+			if (goThrough || config().WANT_OPENPK_POINTS) {
 				player.message("You go through the door");
 				doDoor(obj, player);
 			} else {

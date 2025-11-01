@@ -19,7 +19,7 @@ import static com.openrsc.server.plugins.Functions.*;
 public final class PointsStore extends AbstractShop {
 
 	private final Item[] openPkShopItems = new Item[] {
-		new Item(ItemId.IRON_2_HANDED_SWORD.id(), 100), new Item(ItemId.KLANKS_GAUNTLETS.id(), 100), new Item(ItemId.LOBSTER.id(), 10000), new Item(ItemId.SHARK.id(), 10000), new Item(ItemId.RUBY_AMULET_OF_STRENGTH.id(), 100), new Item(ItemId.FULL_SUPER_ATTACK_POTION.id(), 10000), new Item(ItemId.FULL_SUPER_STRENGTH_POTION.id(), 10000), new Item(ItemId.FULL_SUPER_DEFENSE_POTION.id(), 10000), new Item(ItemId.FULL_RESTORE_PRAYER_POTION.id(), 10000), new Item(ItemId.FULL_RANGING_POTION.id(), 10000),
+		new Item(ItemId.KLANKS_GAUNTLETS.id(), 100), new Item(ItemId.LOBSTER.id(), 10000), new Item(ItemId.SHARK.id(), 10000), new Item(ItemId.RUBY_AMULET_OF_STRENGTH.id(), 100), new Item(ItemId.DIAMOND_AMULET_OF_POWER.id(), 100), new Item(ItemId.FULL_SUPER_ATTACK_POTION.id(), 10000), new Item(ItemId.FULL_SUPER_STRENGTH_POTION.id(), 10000), new Item(ItemId.FULL_SUPER_DEFENSE_POTION.id(), 10000), new Item(ItemId.FULL_RESTORE_PRAYER_POTION.id(), 10000), new Item(ItemId.FULL_RANGING_POTION.id(), 10000), new Item(ItemId.FULL_CURE_POISON_POTION.id(), 10000), new Item(ItemId.ANTI_DRAGON_BREATH_SHIELD.id(), 50),
 	};
 
 	private Shop[] shops = null;

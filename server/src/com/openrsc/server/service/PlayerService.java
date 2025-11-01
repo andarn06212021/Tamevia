@@ -429,6 +429,9 @@ public class PlayerService implements IPlayerService {
 
     @Override
     public void savePlayerCache(final Player player) throws GameDatabaseException {
+        if (player.getConfig().WANT_OPENPK_POINTS) {
+            player.getCache().store("openpk_points", player.getOpenPkPoints());
+        }
         player.getCache().store("last_spell_cast", player.getCastTimer());
 		DesertHeatEvent desertHeatEvent = player.getAttribute("Desert Heat", null);
 		if (desertHeatEvent != null) {

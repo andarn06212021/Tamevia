@@ -124,15 +124,16 @@ public class NpcDrops {
 
     private void createRuneDropTable() {
         runeDropTable = new DropTable("Rune Drop Table");
-        runeDropTable.addItemDrop(ItemId.RUNE_LONG_SWORD.id(), 1, 23);
-        runeDropTable.addItemDrop(ItemId.RUNE_AXE.id(), 1, 23);
-        runeDropTable.addItemDrop(ItemId.RUNE_BATTLE_AXE.id(), 1, 16);
-        runeDropTable.addItemDrop(ItemId.RUNE_SQUARE_SHIELD.id(), 1, 16);
-        runeDropTable.addItemDrop(ItemId.RUNE_KITE_SHIELD.id(), 1, 13);
-        runeDropTable.addItemDrop(ItemId.RUNE_2_HANDED_SWORD.id(), 1, 13);
-        runeDropTable.addItemDrop(ItemId.RUNE_PLATE_MAIL_BODY.id(), 1, 8);
-        runeDropTable.addItemDrop(ItemId.RUNE_PLATE_MAIL_LEGS.id(), 1, 8);
-        runeDropTable.addItemDrop(ItemId.RUNE_SKIRT.id(), 1, 8);
+        runeDropTable.addItemDrop(ItemId.RUNE_LONG_SWORD.id(), 1, 20);
+        runeDropTable.addItemDrop(ItemId.RUNE_AXE.id(), 1, 20);
+        runeDropTable.addItemDrop(ItemId.RUNE_BATTLE_AXE.id(), 1, 13);
+        runeDropTable.addItemDrop(ItemId.RUNE_SQUARE_SHIELD.id(), 1, 13);
+        runeDropTable.addItemDrop(ItemId.RUNE_KITE_SHIELD.id(), 1, 10);
+        runeDropTable.addItemDrop(ItemId.LARGE_RUNE_HELMET.id(), 1, 10);
+        runeDropTable.addItemDrop(ItemId.RUNE_2_HANDED_SWORD.id(), 1, 8);
+        runeDropTable.addItemDrop(ItemId.RUNE_PLATE_MAIL_BODY.id(), 1, 6);
+        runeDropTable.addItemDrop(ItemId.RUNE_PLATE_MAIL_LEGS.id(), 1, 6);
+        runeDropTable.addItemDrop(ItemId.RUNE_SKIRT.id(), 1, 6);
         runeDropTable.addEmptyDrop(128 - runeDropTable.getTotalWeight());
     }
 
@@ -150,8 +151,11 @@ public class NpcDrops {
 		arrowsRunesDropTable.addItemDrop(ItemId.CHAOS_RUNE.id(), 10, 18);
 		arrowsRunesDropTable.addItemDrop(ItemId.CHAOS_RUNE.id(), 30, 6);
 		// Blood runes (12 weight total)
-		arrowsRunesDropTable.addItemDrop(ItemId.BLOOD_RUNE.id(), 5, 8);
-		arrowsRunesDropTable.addItemDrop(ItemId.BLOOD_RUNE.id(), 10, 4);
+		arrowsRunesDropTable.addItemDrop(ItemId.BLOOD_RUNE.id(), 10, 8);
+		arrowsRunesDropTable.addItemDrop(ItemId.BLOOD_RUNE.id(), 25, 4);
+		// Law Runes (9 weight total)
+		arrowsRunesDropTable.addItemDrop(ItemId.LAW_RUNE.id(), 20, 5);
+		arrowsRunesDropTable.addItemDrop(ItemId.LAW_RUNE.id(), 35, 4);
 		// Nature runes (8 weight total)
 		arrowsRunesDropTable.addItemDrop(ItemId.NATURE_RUNE.id(), 5, 6);
 		arrowsRunesDropTable.addItemDrop(ItemId.NATURE_RUNE.id(), 15, 2);
@@ -165,7 +169,7 @@ public class NpcDrops {
 		// Rune arrows (15)
 		arrowsRunesDropTable.addItemDrop(ItemId.RUNE_ARROWS.id(), 30, 10);
 		arrowsRunesDropTable.addItemDrop(ItemId.RUNE_ARROWS.id(), 60, 5);
-		// Current weight sum (without dragon arrows) = 109 → empty = 19
+		// Current weight sum = 118 → empty = 10
 		arrowsRunesDropTable.addEmptyDrop(128 - arrowsRunesDropTable.getTotalWeight());
 	}
 
@@ -464,11 +468,19 @@ public class NpcDrops {
 		currentNpcDrops.addItemDrop(ItemId.STEEL_SCIMITAR.id(), 1, 3);
 		currentNpcDrops.addItemDrop(ItemId.STEEL_AXE.id(), 1, 4);
 		currentNpcDrops.addItemDrop(ItemId.LARGE_STEEL_HELMET.id(), 1, 4);
-		currentNpcDrops.addItemDrop(ItemId.FIRE_RUNE.id(), 20, 1);
-		currentNpcDrops.addItemDrop(ItemId.FIRE_RUNE.id(), 40, 8);
-		currentNpcDrops.addItemDrop(ItemId.DEATH_RUNE.id(), 2, 3);
-		currentNpcDrops.addItemDrop(ItemId.CHAOS_RUNE.id(), 8, 5);
-		currentNpcDrops.addTableDrop(herbDropTable, 1);
+		if (config.WANT_OPENPK_POINTS) {
+			currentNpcDrops.addItemDrop(ItemId.FIRE_RUNE.id(), 20, 5);
+			currentNpcDrops.addItemDrop(ItemId.FIRE_RUNE.id(), 40, 4);
+			currentNpcDrops.addItemDrop(ItemId.DEATH_RUNE.id(), 5, 3);
+			currentNpcDrops.addItemDrop(ItemId.CHAOS_RUNE.id(), 15, 5);
+			currentNpcDrops.addItemDrop(ItemId.LAW_RUNE.id(), 10, 5);
+		} else {
+			currentNpcDrops.addItemDrop(ItemId.FIRE_RUNE.id(), 20, 1);
+			currentNpcDrops.addItemDrop(ItemId.FIRE_RUNE.id(), 40, 8);
+			currentNpcDrops.addItemDrop(ItemId.DEATH_RUNE.id(), 2, 3);
+			currentNpcDrops.addItemDrop(ItemId.CHAOS_RUNE.id(), 8, 5);
+			currentNpcDrops.addTableDrop(herbDropTable, 1);
+		}
 		currentNpcDrops.addItemDrop(ItemId.COINS.id(), 10, 7);
 		currentNpcDrops.addItemDrop(ItemId.COINS.id(), 40, 29);
 		currentNpcDrops.addItemDrop(ItemId.COINS.id(), 120, 40);
@@ -1176,7 +1188,7 @@ public class NpcDrops {
 		currentNpcDrops.addTableDrop(rareDropTable, 5);
 		if(config.WANT_OPENPK_POINTS) {
 			currentNpcDrops.addTableDrop(runeDropTable, 2);
-			currentNpcDrops.addTableDrop(arrowsRunesDropTable, 5);
+			currentNpcDrops.addTableDrop(arrowsRunesDropTable, 8);
 			currentNpcDrops.addItemDrop(ItemId.COINS.id(), 196, 33);
 		} else {
 			currentNpcDrops.addItemDrop(ItemId.COINS.id(), 196, 40);
@@ -1184,7 +1196,7 @@ public class NpcDrops {
 		currentNpcDrops.addItemDrop(ItemId.COINS.id(), 66, 29);
 		currentNpcDrops.addItemDrop(ItemId.COINS.id(), 330, 10);
 		currentNpcDrops.addItemDrop(ItemId.FIRE_RUNE.id(), 50, 6);
-		currentNpcDrops.addItemDrop(ItemId.LAW_RUNE.id(), 2, 5);
+		currentNpcDrops.addItemDrop(ItemId.LAW_RUNE.id(), config.WANT_OPENPK_POINTS ? 15 : 2, 5);
 		currentNpcDrops.addItemDrop(ItemId.BLOOD_RUNE.id(), 1, 4);
 		currentNpcDrops.addItemDrop(ItemId.MITHRIL_2_HANDED_SWORD.id(), 1, 4);
 		currentNpcDrops.addItemDrop(ItemId.DEATH_RUNE.id(), 3, 3);
@@ -1203,8 +1215,8 @@ public class NpcDrops {
 
 		currentNpcDrops = new DropTable("Blue Dragon (202)");
 		if(config.WANT_OPENPK_POINTS) {
-			currentNpcDrops.addTableDrop(runeDropTable, 1);
-			currentNpcDrops.addTableDrop(arrowsRunesDropTable, 3);
+			currentNpcDrops.addTableDrop(runeDropTable, 2);
+			currentNpcDrops.addTableDrop(arrowsRunesDropTable, 8);
 			currentNpcDrops.addItemDrop(ItemId.COINS.id(), 44, 22);
 		} else {
 			currentNpcDrops.addItemDrop(ItemId.COINS.id(), 44, 29);
@@ -1219,7 +1231,7 @@ public class NpcDrops {
 		currentNpcDrops.addItemDrop(ItemId.STEEL_PLATE_MAIL_LEGS.id(), 1, 4);
 		currentNpcDrops.addItemDrop(ItemId.MITHRIL_AXE.id(), 1, 3);
 		currentNpcDrops.addItemDrop(ItemId.STEEL_BATTLE_AXE.id(), 1, 3);
-		currentNpcDrops.addItemDrop(ItemId.LAW_RUNE.id(), 2, 3);
+		currentNpcDrops.addItemDrop(ItemId.LAW_RUNE.id(), config.WANT_OPENPK_POINTS ? 15 : 2, 3);
 		currentNpcDrops.addItemDrop(ItemId.ADAMANTITE_ORE.id(), 1, 3);
 		currentNpcDrops.addItemDrop(ItemId.BASS.id(), 2, 1);
 		currentNpcDrops.addItemDrop(ItemId.BASS.id(), 1, 2);
@@ -1318,7 +1330,7 @@ public class NpcDrops {
 		currentNpcDrops.addItemDrop(ItemId.STEEL_AXE.id(), 1, 1);
 		currentNpcDrops.addItemDrop(ItemId.COSMIC_RUNE.id(), 1, 1);
 		currentNpcDrops.addItemDrop(ItemId.DEATH_RUNE.id(), 1, 1);
-		currentNpcDrops.addItemDrop(ItemId.LAW_RUNE.id(), 1, 1);
+		currentNpcDrops.addItemDrop(ItemId.LAW_RUNE.id(), config.WANT_OPENPK_POINTS ? 5 : 1, 1);
 		currentNpcDrops.addEmptyDrop(128 - currentNpcDrops.getTotalWeight());
 		this.npcDrops.put(NpcId.THUG.id(), currentNpcDrops);
 
@@ -1352,8 +1364,14 @@ public class NpcDrops {
 		this.npcDrops.put(NpcId.CHAOS_DRUID.id(), currentNpcDrops);
 
 		currentNpcDrops = new DropTable("Black Demon (290)");
-		currentNpcDrops.addTableDrop(herbDropTable, 23);
-		currentNpcDrops.addTableDrop(rareDropTable, 5);
+		if (config.WANT_OPENPK_POINTS) {
+			currentNpcDrops.addTableDrop(runeDropTable, 3);
+			currentNpcDrops.addTableDrop(arrowsRunesDropTable, 6);
+			currentNpcDrops.addItemDrop(ItemId.COINS.id(), 196, 20);
+		} else {
+			currentNpcDrops.addTableDrop(herbDropTable, 23);
+			currentNpcDrops.addTableDrop(rareDropTable, 5);
+		}
 		currentNpcDrops.addTableDrop(ultraRareDropTable, 1);
 		currentNpcDrops.addItemDrop(ItemId.COINS.id(), 132, 40);
 		currentNpcDrops.addItemDrop(ItemId.COINS.id(), 30, 7);
@@ -1370,7 +1388,7 @@ public class NpcDrops {
 		currentNpcDrops.addItemDrop(ItemId.RUNE_CHAIN_MAIL_BODY.id(), 1, 1);
 		currentNpcDrops.addItemDrop(ItemId.MITHRIL_KITE_SHIELD.id(), 1, 1);
 		currentNpcDrops.addItemDrop(ItemId.MEDIUM_RUNE_HELMET.id(), 1, 1);
-		currentNpcDrops.addItemDrop(ItemId.LAW_RUNE.id(), 3, 1);
+		currentNpcDrops.addItemDrop(ItemId.LAW_RUNE.id(), config.WANT_OPENPK_POINTS ? 15 : 3, 1);
 		currentNpcDrops.addItemDrop(ItemId.FIRE_RUNE.id(), 25, 1);
 		currentNpcDrops.addItemDrop(ItemId.COINS.id(), 460, 1);
 		currentNpcDrops.addItemDrop(ItemId.FULL_DEFENSE_POTION.id(), 1, 1);
@@ -1385,16 +1403,16 @@ public class NpcDrops {
 			currentNpcDrops.addItemDrop(ItemId.COINS.id(), 196, 15);
 		} else {
 			currentNpcDrops.addItemDrop(ItemId.COINS.id(), 196, 40);
+			currentNpcDrops.addTableDrop(herbDropTable, 3);
+			currentNpcDrops.addTableDrop(rareDropTable, 3);
 		}
-		currentNpcDrops.addTableDrop(herbDropTable, 3);
-		currentNpcDrops.addTableDrop(rareDropTable, 3);
 		currentNpcDrops.addTableDrop(ultraRareDropTable, 2);
 		currentNpcDrops.addItemDrop(ItemId.COINS.id(), 66, 20);
 		currentNpcDrops.addItemDrop(ItemId.COINS.id(), 330, 10);
 		currentNpcDrops.addItemDrop(ItemId.FIRE_RUNE.id(), 50, 8);
 		currentNpcDrops.addItemDrop(ItemId.COINS.id(), 16, 6);
 		currentNpcDrops.addItemDrop(ItemId.DEATH_RUNE.id(), 3, 3);
-		currentNpcDrops.addItemDrop(ItemId.LAW_RUNE.id(), 2, 5);
+		currentNpcDrops.addItemDrop(ItemId.LAW_RUNE.id(), config.WANT_OPENPK_POINTS ? 20 : 2, 5);
 		currentNpcDrops.addItemDrop(ItemId.MITHRIL_2_HANDED_SWORD.id(), 1, 4);
 		currentNpcDrops.addItemDrop(ItemId.MITHRIL_AXE.id(), 1, 3);
 		currentNpcDrops.addItemDrop(ItemId.BLOOD_RUNE.id(), 10, 3);
