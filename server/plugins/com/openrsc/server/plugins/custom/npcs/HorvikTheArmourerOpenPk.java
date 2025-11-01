@@ -19,7 +19,7 @@ public final class HorvikTheArmourerOpenPk extends AbstractShop {
 		100), new Item(ItemId.LARGE_STEEL_HELMET.id(), 100), new Item(ItemId.STEEL_PLATE_MAIL_BODY.id(), 100), new Item(ItemId.STEEL_PLATE_MAIL_LEGS.id(), 100), new Item(ItemId.STEEL_KITE_SHIELD.id(), 100), new Item(ItemId.BLACK_CHAIN_MAIL_BODY.id(),
 		100), new Item(ItemId.LARGE_BLACK_HELMET.id(), 100), new Item(ItemId.BLACK_PLATE_MAIL_BODY.id(), 100), new Item(ItemId.BLACK_PLATE_MAIL_LEGS.id(), 100), new Item(ItemId.BLACK_KITE_SHIELD.id(), 100), new Item(ItemId.MITHRIL_CHAIN_MAIL_BODY.id(),
 		100), new Item(ItemId.LARGE_MITHRIL_HELMET.id(), 100), new Item(ItemId.MITHRIL_PLATE_MAIL_BODY.id(), 100), new Item(ItemId.MITHRIL_PLATE_MAIL_LEGS.id(), 100), new Item(ItemId.MITHRIL_KITE_SHIELD.id(), 100), new Item(ItemId.ADAMANTITE_CHAIN_MAIL_BODY.id(),
-		100), new Item(ItemId.LARGE_ADAMANTITE_HELMET.id(), 100), new Item(ItemId.ADAMANTITE_PLATE_MAIL_BODY.id(), 100), new Item(ItemId.ADAMANTITE_PLATE_MAIL_LEGS.id(), 100), new Item(ItemId.ADAMANTITE_KITE_SHIELD.id(), 100), new Item(ItemId.KLANKS_GAUNTLETS.id(), 100));
+		100), new Item(ItemId.LARGE_ADAMANTITE_HELMET.id(), 100), new Item(ItemId.ADAMANTITE_PLATE_MAIL_BODY.id(), 100), new Item(ItemId.ADAMANTITE_PLATE_MAIL_LEGS.id(), 100), new Item(ItemId.ADAMANTITE_KITE_SHIELD.id(), 100), new Item(ItemId.KLANKS_GAUNTLETS.id(), 1000));
 
 	@Override
 	public boolean blockTalkNpc(final Player player, final Npc n) {

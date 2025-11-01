@@ -471,20 +471,24 @@ public class NpcDrops {
 		if (config.WANT_OPENPK_POINTS) {
 			currentNpcDrops.addItemDrop(ItemId.FIRE_RUNE.id(), 20, 5);
 			currentNpcDrops.addItemDrop(ItemId.FIRE_RUNE.id(), 40, 4);
-			currentNpcDrops.addItemDrop(ItemId.DEATH_RUNE.id(), 5, 3);
+			currentNpcDrops.addItemDrop(ItemId.DEATH_RUNE.id(), 5, 4);
 			currentNpcDrops.addItemDrop(ItemId.CHAOS_RUNE.id(), 15, 5);
-			currentNpcDrops.addItemDrop(ItemId.LAW_RUNE.id(), 10, 5);
+			currentNpcDrops.addItemDrop(ItemId.LAW_RUNE.id(), 10, 3);
+			currentNpcDrops.addItemDrop(ItemId.COINS.id(), 10, 7);
+			currentNpcDrops.addItemDrop(ItemId.COINS.id(), 40, 19);
+			currentNpcDrops.addItemDrop(ItemId.COINS.id(), 120, 30);
+			currentNpcDrops.addItemDrop(ItemId.COINS.id(), 200, 10);
 		} else {
 			currentNpcDrops.addItemDrop(ItemId.FIRE_RUNE.id(), 20, 1);
 			currentNpcDrops.addItemDrop(ItemId.FIRE_RUNE.id(), 40, 8);
 			currentNpcDrops.addItemDrop(ItemId.DEATH_RUNE.id(), 2, 3);
 			currentNpcDrops.addItemDrop(ItemId.CHAOS_RUNE.id(), 8, 5);
 			currentNpcDrops.addTableDrop(herbDropTable, 1);
+			currentNpcDrops.addItemDrop(ItemId.COINS.id(), 10, 7);
+			currentNpcDrops.addItemDrop(ItemId.COINS.id(), 40, 29);
+			currentNpcDrops.addItemDrop(ItemId.COINS.id(), 120, 40);
+			currentNpcDrops.addItemDrop(ItemId.COINS.id(), 200, 10);
 		}
-		currentNpcDrops.addItemDrop(ItemId.COINS.id(), 10, 7);
-		currentNpcDrops.addItemDrop(ItemId.COINS.id(), 40, 29);
-		currentNpcDrops.addItemDrop(ItemId.COINS.id(), 120, 40);
-		currentNpcDrops.addItemDrop(ItemId.COINS.id(), 200, 10);
 		currentNpcDrops.addItemDrop(ItemId.GOLD.id(), 1, 2);
 		currentNpcDrops.addItemDrop(ItemId.WINE.id(), 2, 3);
 		currentNpcDrops.addTableDrop(rareDropTable, 4);
@@ -1189,7 +1193,7 @@ public class NpcDrops {
 		if(config.WANT_OPENPK_POINTS) {
 			currentNpcDrops.addTableDrop(runeDropTable, 2);
 			currentNpcDrops.addTableDrop(arrowsRunesDropTable, 8);
-			currentNpcDrops.addItemDrop(ItemId.COINS.id(), 196, 33);
+			currentNpcDrops.addItemDrop(ItemId.COINS.id(), 196, 23);
 		} else {
 			currentNpcDrops.addItemDrop(ItemId.COINS.id(), 196, 40);
 		}
@@ -1217,7 +1221,7 @@ public class NpcDrops {
 		if(config.WANT_OPENPK_POINTS) {
 			currentNpcDrops.addTableDrop(runeDropTable, 2);
 			currentNpcDrops.addTableDrop(arrowsRunesDropTable, 8);
-			currentNpcDrops.addItemDrop(ItemId.COINS.id(), 44, 22);
+			currentNpcDrops.addItemDrop(ItemId.COINS.id(), 44, 18);
 		} else {
 			currentNpcDrops.addItemDrop(ItemId.COINS.id(), 44, 29);
 		}
@@ -1367,7 +1371,7 @@ public class NpcDrops {
 		if (config.WANT_OPENPK_POINTS) {
 			currentNpcDrops.addTableDrop(runeDropTable, 3);
 			currentNpcDrops.addTableDrop(arrowsRunesDropTable, 6);
-			currentNpcDrops.addItemDrop(ItemId.COINS.id(), 196, 20);
+			currentNpcDrops.addItemDrop(ItemId.COINS.id(), 196, 15);
 		} else {
 			currentNpcDrops.addTableDrop(herbDropTable, 23);
 			currentNpcDrops.addTableDrop(rareDropTable, 5);

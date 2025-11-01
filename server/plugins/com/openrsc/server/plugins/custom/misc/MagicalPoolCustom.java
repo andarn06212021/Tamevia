@@ -39,7 +39,7 @@ public class MagicalPoolCustom implements OpLocTrigger {
 					"Dragon Maze (dangerous)", "Mage Arena (dangerous)", "Rune rocks (dangerous)", "Red dragons (dangerous)", "Seers", "Further underground mage arena");
 
 				if (option == 0) {
-					player.teleport(215, 438);
+					player.teleport(218, 456);
 				} else if (option == 1) {
 					player.teleport(111, 505);
 				} else if (option == 2) {
