@@ -1717,7 +1717,7 @@ public final class Player extends Mob {
 			multiplier = getConfig().COMBAT_EXP_RATE;
 		}
 
-		// Apply the Wilderness and Skull multipliers.
+		// Apply the Wilderness and Skull multipliers (technically, they are additive multipliers, not multiplicative, intentionally to prevent zeroing out wilderness XP because multiplier *= 0 is 0).
 		// You won't get the Wilderness multiplier if you're standing in the mage bank entrance.
 		if (getLocation().inWilderness() && !getLocation().inBounds(220, 108, 225, 111)) {
 			multiplier += getConfig().WILDERNESS_BOOST;
