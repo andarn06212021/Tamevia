@@ -13,7 +13,7 @@ public class OpenRSC extends ORSCApplet {
 	public static OpenRSC applet;
 	static JFrame jframe;
 	private static final long serialVersionUID = 1L;
-	
+
 	public static void main(String[] args) {
 		// MUST do this before anything else runs in order to override OS-level dpi settings
 		// (not applicable to macOS, which implements OS-scaling in a different fashion)
@@ -36,7 +36,7 @@ public class OpenRSC extends ORSCApplet {
 			System.setProperty("apple.awt.application.appearance", "system");
 		}
 
-		 File scalingSettings = new File("./clientSettings.conf");
+		File scalingSettings = new File("./clientSettings.conf");
 		if (scalingSettings.exists()) {
 			Properties props = new Properties();
 

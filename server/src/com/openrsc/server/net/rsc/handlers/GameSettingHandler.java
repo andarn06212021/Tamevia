@@ -92,6 +92,8 @@ public final class GameSettingHandler implements PayloadProcessor<GameSettingStr
 				player.getCache().store("show_recent_npc_kc", value == 1);
 			} else if (idx == 45) {
 				player.getCache().store("setting_ground_item_names", value == 1);
+			} else if (idx == 46) {
+				player.getCache().store("want_nature_rune_protection", value == 1);
 			}
 			return;
 		}

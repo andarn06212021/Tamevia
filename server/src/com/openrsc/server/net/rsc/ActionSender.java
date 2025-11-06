@@ -680,6 +680,7 @@ public class ActionSender {
 			customOptions.add(player.getStatusBar());
 			customOptions.add(player.getShowRecentNPCKC() ? 1 : 0);
 			customOptions.add(player.getGroundItemNames() ? 1 : 0);
+			customOptions.add(player.getNatureRuneProtection() ? 1 : 0);
 		}
 		struct.customOptions = customOptions;
 		tryFinalizeAndSendPacket(OpcodeOut.SEND_GAME_SETTINGS, struct, player);
@@ -778,6 +779,7 @@ public class ActionSender {
 			LOGGER.info(Crypto.getPublicExponent() + " 87");
 			LOGGER.info(Crypto.getPublicModulus() + " 88");
 			LOGGER.info(server.getConfig().GROUND_ITEM_NAMES + " 89");
+			LOGGER.info(server.getConfig().WANT_NATURE_RUNE_PROTECTION + " 90");
 		}
 		Packet p = prepareServerConfigs(server);
 		// ConnectionAttachment attachment = new ConnectionAttachment();
@@ -893,6 +895,7 @@ public class ActionSender {
 		configs.add(Crypto.getPublicExponent().toString()); // 87
 		configs.add(Crypto.getPublicModulus().toString()); // 88
 		configs.add((byte) (server.getConfig().GROUND_ITEM_NAMES ? 1 : 0)); // 89
+		configs.add((byte) (server.getConfig().WANT_NATURE_RUNE_PROTECTION ? 1 : 0)); // 90
 
 		struct.configs = configs;
 		struct.setOpcode(OpcodeOut.SEND_SERVER_CONFIGS);

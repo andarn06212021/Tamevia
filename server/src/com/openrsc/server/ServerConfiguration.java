@@ -97,6 +97,7 @@ public class ServerConfiguration {
 	public boolean FOG_TOGGLE;
 	public boolean GROUND_ITEM_TOGGLE;
 	public boolean GROUND_ITEM_NAMES;
+	public boolean WANT_NATURE_RUNE_PROTECTION;
 	public boolean AUTO_MESSAGE_SWITCH_TOGGLE;
 	public boolean HIDE_LOGIN_BOX_TOGGLE;
 	public boolean BATCH_PROGRESSION;
@@ -506,6 +507,7 @@ public class ServerConfiguration {
 		FOG_TOGGLE = tryReadBool("fog_toggle").orElse(false);
 		GROUND_ITEM_TOGGLE = tryReadBool("ground_item_toggle").orElse(false);
 		GROUND_ITEM_NAMES = tryReadBool("ground_item_names").orElse(false);
+		WANT_NATURE_RUNE_PROTECTION = tryReadBool("want_nature_rune_protection").orElse(true); // Important that nature rune protection is true by default, otherwise we might have some very unhappy players!
 		MENU_COMBAT_STYLE_TOGGLE = tryReadBool("menu_combat_style_toggle").orElse(false);
 		FIGHTMODE_SELECTOR_TOGGLE = tryReadBool("fightmode_selector_toggle").orElse(false);
 		EXPERIENCE_COUNTER_TOGGLE = tryReadBool("experience_counter_toggle").orElse(false);

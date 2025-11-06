@@ -3380,6 +3380,16 @@ public final class Player extends Mob {
 		return false;
 	}
 
+	public boolean getNatureRuneProtection() {
+		if (getConfig().WANT_NATURE_RUNE_PROTECTION) {
+			if (getCache().hasKey("want_nature_rune_protection")) {
+				return getCache().getBoolean("want_nature_rune_protection");
+			}
+		}
+
+		return false;
+	}
+
 	public int getFightModeSelectorToggle() {
 		if (getWorld().getServer().getConfig().FIGHTMODE_SELECTOR_TOGGLE) {
 			if (getCache().hasKey("setting_fightmode_selector")) {
