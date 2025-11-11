@@ -12,7 +12,6 @@ cd /d C:\Users\bypass\Documents\game\Core-Framework
 git fetch --all --prune
 git checkout main
 git pull --ff-only myproj main
-REM Initial menu displayed to the user
 cls
 echo:
 echo What would you like to do?
