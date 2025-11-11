@@ -152,3 +152,4 @@ Backups/*.zip
 Deployment_Scripts/.discordstaffmonitorwebhook
 server/ipbans.txt
 server/ipbans.temp
+server/inc/sqlite/cabbage.db
