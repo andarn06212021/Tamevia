@@ -1,4 +1,4 @@
-﻿package orsc;
+package orsc;
 
 import com.openrsc.client.entityhandling.EntityHandler;
 import com.openrsc.client.entityhandling.defs.ItemDef;
@@ -144,13 +144,9 @@ public class PacketHandler {
 	}
 
 	public final Socket openSocket(int port, String host) throws IOException {
-    System.out.println("Connecting to " + host + ":" + port + " ...");
-    try {
-        Socket s = new Socket(InetAddress.getByName(host), port);        //s.setSendBufferSize(25000);
-    } catch (IOException ex) {
-        System.err.println("Connection failed: " + ex.getMessage());
-        throw ex;
-    }//s.setReceiveBufferSize(25000);
+		Socket s = new Socket(InetAddress.getByName(host), port);
+		//s.setSendBufferSize(25000);
+		//s.setReceiveBufferSize(25000);
 		s.setSoTimeout(30000);
 		s.setTcpNoDelay(true);
 		return s;
@@ -2946,4 +2942,3 @@ public class PacketHandler {
 		mc.getBank().updatePreset(slot, inventoryItems, equipmentItems);
 	}
 }
-
