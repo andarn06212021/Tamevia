@@ -127,7 +127,7 @@ public final class mudclient implements Runnable {
 	private final int[] groundItemX = new int[5000];
 	private final int[] groundItemZ = new int[5000];
 	private final ArrayList<GroundItem> groundItems = new ArrayList<GroundItem>();
-	private final Item[] inventory = new Item[S_PLAYER_INVENTORY_SLOTS];
+	private final Item[] inventory = new Item[__clampIndex(S_PLAYER_INVENTORY_SLOTS, Item.length)];
 	private final ORSCharacter[] knownPlayers = new ORSCharacter[500];
 	private final String[] optionsMenuText = new String[20];
 	private final int[] groundItemHeight = new int[5000];
@@ -228,11 +228,11 @@ public final class mudclient implements Runnable {
 	private final int[] wallObjectInstanceX = new int[500];
 	private final int[] wallObjectInstanceZ = new int[500];
 	private final int[] inventorySpellList = new int[]{3, 10, 13, 21, 24, 28, 30, 42};
-	//private final int[] inventoryItemEquipped = new int[S_PLAYER_INVENTORY_SLOTS];
-	//private final int[] inventoryItemID = new int[S_PLAYER_INVENTORY_SLOTS];
-	//private final int[] inventoryItemSize = new int[S_PLAYER_INVENTORY_SLOTS];
-	public ItemDef[] equippedItems = new ItemDef[S_PLAYER_SLOT_COUNT];
-	public int[] equippedItemAmount = new int[S_PLAYER_SLOT_COUNT];
+	//private final int[] inventoryItemEquipped = new int[__clampIndex(S_PLAYER_INVENTORY_SLOTS, int.length)];
+	//private final int[] inventoryItemID = new int[__clampIndex(S_PLAYER_INVENTORY_SLOTS, int.length)];
+	//private final int[] inventoryItemSize = new int[__clampIndex(S_PLAYER_INVENTORY_SLOTS, int.length)];
+	public ItemDef[] equippedItems = new ItemDef[__clampIndex(S_PLAYER_SLOT_COUNT, ItemDef.length)];
+	public int[] equippedItemAmount = new int[__clampIndex(S_PLAYER_SLOT_COUNT, int.length)];
 	public Thread clientBaseThread = null;
 	public int threadState = 0;
 	public String chatMessageInput = "";
@@ -453,7 +453,7 @@ public final class mudclient implements Runnable {
 	private boolean duelSettingsWeapons = false;
 	private boolean errorLoadingData = false;
 	private boolean errorLoadingMemory = false;
-	private int[] experienceArray = new int[S_PLAYER_LEVEL_LIMIT];
+	private int[] experienceArray = new int[__clampIndex(S_PLAYER_LEVEL_LIMIT, int.length)];
 	private int fatigueSleeping = 0;
 	private int fatigueSleepingAuthentic = 0;
 	private int gameHeight = 334;
@@ -744,20 +744,20 @@ public final class mudclient implements Runnable {
 		F_CACHE_DIR = clientPort.getCacheLocation();
 
 		for (int i = 0; i < S_PLAYER_INVENTORY_SLOTS; ++i) {
-			inventory[i] = new Item();
+			inventory[__clampIndex(i, inventory.length)] = new Item();
 		}
 		for (int i = 0; i < 14; ++i) {
-			trade[i] = new Item();
-			tradeRecipient[i] = new Item();
-			tradeConfirm[i] = new Item();
-			tradeRecipientConfirm[i] = new Item();
+			trade[__clampIndex(i, trade.length)] = new Item();
+			tradeRecipient[__clampIndex(i, tradeRecipient.length)] = new Item();
+			tradeConfirm[__clampIndex(i, tradeConfirm.length)] = new Item();
+			tradeRecipientConfirm[__clampIndex(i, tradeRecipientConfirm.length)] = new Item();
 		}
 
 		for (int i = 0; i < 8; ++i) {
-			duel[i] = new Item();
-			duelOpponent[i] = new Item();
-			duelConfirm[i] = new Item();
-			duelOpponentConfirm[i] = new Item();
+			duel[__clampIndex(i, duel.length)] = new Item();
+			duelOpponent[__clampIndex(i, duelOpponent.length)] = new Item();
+			duelConfirm[__clampIndex(i, duelConfirm.length)] = new Item();
+			duelOpponentConfirm[__clampIndex(i, duelOpponentConfirm.length)] = new Item();
 		}
 
 		initConfig();
@@ -915,7 +915,7 @@ public final class mudclient implements Runnable {
 			cmp_len = ((headers[3] & 0xFF) << 16) + ((headers[4] & 0xFF) << 8) + (headers[5] & 0xFF);
 			clientPort.showLoadingProgress(startPercentage, "Loading " + fileTitle + " - 5%");
 			int l = 0;
-			data = new byte[cmp_len];
+			data = new byte[__clampIndex(cmp_len, byte.length)];
 			while (l < cmp_len) {
 				int i1 = cmp_len - l;
 				if (i1 > 1000)
@@ -931,7 +931,7 @@ public final class mudclient implements Runnable {
 		}
 		clientPort.showLoadingProgress(startPercentage, "Unpacking " + fileTitle);
 		if (cmp_len != decmp_len) {
-			byte[] buffer = new byte[decmp_len];
+			byte[] buffer = new byte[__clampIndex(decmp_len, byte.length)];
 			DataFileDecrypter.unpackData(buffer, decmp_len, data, cmp_len, 0);
 			return buffer;
 		}
@@ -1497,8 +1497,8 @@ public final class mudclient implements Runnable {
 					int var3 = 0;
 					if (var1 > 7) {
 						while (var3 < 7) {
-							if (this.cameraColliding((7 & 8 + this.cameraAngle + var2[var3]))) {
-								this.cameraAngle = 7 & this.cameraAngle + var2[var3] + 8;
+							if (this.cameraColliding((7 & 8 + this.cameraAngle + var2[__clampIndex(var3, var2.length)]))) {
+								this.cameraAngle = 7 & this.cameraAngle + var2[__clampIndex(var3, var2.length)] + 8;
 								break;
 							}
 
@@ -3618,7 +3618,7 @@ public final class mudclient implements Runnable {
 				int highest = 0;
 				int boxEndY = 0;
 				for (int j = 0; j < optionsMenuCount; j++) {
-					int textWidth = getSurface().stringWidth(6, optionsMenuText[j]) + 15;
+					int textWidth = getSurface().stringWidth(6, optionsMenuText[__clampIndex(j, optionsMenuText.length)]) + 15;
 					if (highest < textWidth) {
 						highest = textWidth;
 					}
@@ -3654,7 +3654,7 @@ public final class mudclient implements Runnable {
 						k = 0xff0000;
 
 					this.getSurface().drawString(
-						(S_WANT_KEYBOARD_SHORTCUTS > 1 ? "(" + (j + 1) + ")" : "") + optionsMenuText[j],
+						(S_WANT_KEYBOARD_SHORTCUTS > 1 ? "(" + (j + 1) + ")" : "") + optionsMenuText[__clampIndex(j, optionsMenuText.length)],
 						startX + 10, startY + j * spread, k, 6);
 				}
 			} else {
@@ -6423,8 +6423,8 @@ public final class mudclient implements Runnable {
 				if (npc.wield > 0 || npc.wield2 > 0) {
 					int[] animID;
 					animID = new int[]{-1, -1, -1, -1, npc.wield, -1, -1, -1, -1, -1, npc.wield2, -1};
-					AnimationDef animationDef = EntityHandler.getAnimationDef(animID[var16]);
-					if (animID[var16] >= 0) {
+					AnimationDef animationDef = EntityHandler.getAnimationDef(animID[__clampIndex(var16, animID.length)]);
+					if (animID[__clampIndex(var16, animID.length)] >= 0) {
 						byte spriteOffsetX = 0;
 						byte spriteOffsetY = 0;
 						int variant = var14;
@@ -6436,7 +6436,7 @@ public final class mudclient implements Runnable {
 							Sprite sprite = spriteSelect(animationDef, variant);
 							int something1 = sprite.getSomething1();
 							int something2 = sprite.getSomething2();
-							int something3 = this.spriteSelect(EntityHandler.getAnimationDef(animID[var16]), 0).getSomething1();
+							int something3 = this.spriteSelect(EntityHandler.getAnimationDef(animID[__clampIndex(var16, animID.length)]), 0).getSomething1();
 							if (something1 != 0 && something2 != 0 && something3 != 0) {
 								int xOffset = (spriteOffsetX * width1) / something1;
 								int yOffset = (spriteOffsetY * height) / something2;
@@ -6447,7 +6447,7 @@ public final class mudclient implements Runnable {
 								if (colorVariant == 1) {
 									baseColor = def.getSkinColour();// CacheValues.npcColourSkin[npc.npcId];
 									colorVariant = def.getHairColour();// CacheValues.npcColourHair[npc.npcId];
-								} else if (animID[var16] >= 230 && Config.S_WANT_CUSTOM_SPRITES) {
+								} else if (animID[__clampIndex(var16, animID.length)] >= 230 && Config.S_WANT_CUSTOM_SPRITES) {
 									baseColor = def.getSkinColour();// CacheValues.npcColourSkin[npc.npcId];
 								} else if (colorVariant != 2) {
 									if (colorVariant == 3) {
@@ -7293,7 +7293,7 @@ public final class mudclient implements Runnable {
 				}
 			}
 		} else {
-			int stringWid = getSurface().stringWidth(3, skillNames[skill] + ": " + playerStatBase[skill] + ": " + playerExperience[skill]);
+			int stringWid = getSurface().stringWidth(3, skillNames[__clampIndex(skill, skillNames.length)] + ": " + playerStatBase[__clampIndex(skill, playerStatBase.length)] + ": " + playerExperience[__clampIndex(skill, playerExperience.length)]);
 			int x = (getGameWidth() / 2) - (stringWid / 2) - 10;
 			int width = stringWid + 6;
 			this.getSurface().drawBoxAlpha(x, 0, width, 20, 0x989898, 90);
@@ -7301,9 +7301,9 @@ public final class mudclient implements Runnable {
 
 			int tilLvl = 0, baseTilLvl = 0, progressWidth = 0;
 			double progress = 0;
-			if (playerStatBase[skill] != S_PLAYER_LEVEL_LIMIT) {
-				tilLvl = this.experienceArray[playerStatBase[skill] - 1] - this.playerExperience[skill];
-				baseTilLvl = this.experienceArray[playerStatBase[skill]] - this.experienceArray[playerStatBase[skill] - 1];
+			if (playerStatBase[__clampIndex(skill, playerStatBase.length)] != S_PLAYER_LEVEL_LIMIT) {
+				tilLvl = this.experienceArray[playerStatBase[__clampIndex(skill, playerStatBase.length)] - 1] - this.playerExperience[skill];
+				baseTilLvl = this.experienceArray[playerStatBase[__clampIndex(skill, playerStatBase.length)]] - this.experienceArray[playerStatBase[__clampIndex(skill, playerStatBase.length)] - 1];
 				progress = ((double) tilLvl) / ((double) baseTilLvl) / 0.9;
 				progressWidth = (int) (progress * width);
 
@@ -7312,9 +7312,9 @@ public final class mudclient implements Runnable {
 			}
 
 			if (textColor == 0xFFFFFF) {
-				getSurface().drawShadowText(skillNames[skill] + ": " + playerStatBase[skill] + ": " + playerExperience[skill], (getGameWidth() / 2) - (stringWid / 2) - 4, 15, textColor, 2, false);
+				getSurface().drawShadowText(skillNames[__clampIndex(skill, skillNames.length)] + ": " + playerStatBase[__clampIndex(skill, playerStatBase.length)] + ": " + playerExperience[__clampIndex(skill, playerExperience.length)], (getGameWidth() / 2) - (stringWid / 2) - 4, 15, textColor, 2, false);
 			} else {
-				getSurface().drawString(skillNames[skill] + ": " + playerStatBase[skill] + ": " + playerExperience[skill], (getGameWidth() / 2) - (stringWid / 2) - 4, 15, textColor, 2);
+				getSurface().drawString(skillNames[__clampIndex(skill, skillNames.length)] + ": " + playerStatBase[__clampIndex(skill, playerStatBase.length)] + ": " + playerExperience[__clampIndex(skill, playerExperience.length)], (getGameWidth() / 2) - (stringWid / 2) - 4, 15, textColor, 2);
 			}
 
 			if (isAndroid() && this.mouseButtonClick == 1 && mouseX >= x && mouseX <= x + width && mouseY >= 0 && mouseY <= 20) {
@@ -7343,21 +7343,21 @@ public final class mudclient implements Runnable {
 				//this.getSurface().drawBoxBorder(x, width, 19, 61, 0x000000);
 
 				if (textColor == 0xFFFFFF) {
-					if (playerStatBase[skill] == S_PLAYER_LEVEL_LIMIT) {
+					if (playerStatBase[__clampIndex(skill, playerStatBase.length)] == S_PLAYER_LEVEL_LIMIT) {
 						this.getSurface().drawShadowText("Gained: " + this.playerStatXpGained[skill], x + 3, 63, textColor, 2, false);
 						this.getSurface().drawShadowText("Xp/hr:     " + (int) xpPerHour, x + 3, 78, textColor, 2, false);
 					} else {
-						this.getSurface().drawShadowText("Next lvl: " + this.experienceArray[playerStatBase[skill] - 1], x + 3, 33, textColor, 2, false);
+						this.getSurface().drawShadowText("Next lvl: " + this.experienceArray[playerStatBase[__clampIndex(skill, playerStatBase.length)] - 1], x + 3, 33, textColor, 2, false);
 						this.getSurface().drawShadowText("Til lvl:     " + tilLvl, x + 3, 48, textColor, 2, false);
 						this.getSurface().drawShadowText("Gained: " + this.playerStatXpGained[skill], x + 3, 63, textColor, 2, false);
 						this.getSurface().drawShadowText("Xp/hr:     " + (int) xpPerHour, x + 3, 78, textColor, 2, false);
 					}
 				} else {
-					if (playerStatBase[skill] == S_PLAYER_LEVEL_LIMIT) {
+					if (playerStatBase[__clampIndex(skill, playerStatBase.length)] == S_PLAYER_LEVEL_LIMIT) {
 						this.getSurface().drawString("Gained: " + this.playerStatXpGained[skill], x + 3, 63, textColor, 2);
 						this.getSurface().drawString("Xp/hr:     " + (int) xpPerHour, x + 3, 78, textColor, 2);
 					} else {
-						this.getSurface().drawString("Next lvl: " + this.experienceArray[playerStatBase[skill] - 1], x + 3, 33, textColor, 2);
+						this.getSurface().drawString("Next lvl: " + this.experienceArray[playerStatBase[__clampIndex(skill, playerStatBase.length)] - 1], x + 3, 33, textColor, 2);
 						this.getSurface().drawString("Til lvl:     " + tilLvl, x + 3, 48, textColor, 2);
 						this.getSurface().drawString("Gained: " + this.playerStatXpGained[skill], x + 3, 63, textColor, 2);
 						this.getSurface().drawString("Xp/hr:     " + (int) xpPerHour, x + 3, 78, textColor, 2);
@@ -7658,8 +7658,8 @@ public final class mudclient implements Runnable {
 			}
 
 			for (int var20 = 0; var20 < var3 && this.menuCommon.getItemCount(var1 ^ -27155) <= 200; ++var20) {
-				int var7 = var19[var20];
-				RSModel var8 = var18[var20];
+				int var7 = var19[__clampIndex(var20, var19.length)];
+				RSModel var8 = var18[__clampIndex(var20, var18.length)];
 				if (var8.facePickIndex[var7] <= 0xFFFF
 					|| var8.facePickIndex[var7] >= 200000 && var8.facePickIndex[var7] <= 300000) {
 					int var9;
@@ -7706,11 +7706,11 @@ public final class mudclient implements Runnable {
 												+ EntityHandler.getDoorDef(id)
 												.getName()
 												+ (localPlayer.isDev() ? " @or1@(" + id + ":"
-												+ (wallObjectInstanceX[var9] + this.midRegionBaseX)
+												+ (wallObjectInstanceX[__clampIndex(var9, wallObjectInstanceX.length)] + this.midRegionBaseX)
 												+ ","
-												+ (wallObjectInstanceZ[var9] + this.midRegionBaseZ)
+												+ (wallObjectInstanceZ[__clampIndex(var9, wallObjectInstanceZ.length)] + this.midRegionBaseZ)
 												+ ","
-												+ wallObjectInstanceDir[var9]
+												+ wallObjectInstanceDir[__clampIndex(var9, wallObjectInstanceDir.length)]
 												+ ")" : ""));
 								}
 
@@ -7765,13 +7765,13 @@ public final class mudclient implements Runnable {
 													.getName()
 													+ (localPlayer.isDev()
 													? " @or1@(" + id + ":"
-													+ (gameObjectInstanceX[var9]
+													+ (gameObjectInstanceX[__clampIndex(var9, gameObjectInstanceX.length)]
 													+ this.midRegionBaseX)
 													+ ","
-													+ (gameObjectInstanceZ[var9]
+													+ (gameObjectInstanceZ[__clampIndex(var9, gameObjectInstanceZ.length)]
 													+ this.midRegionBaseZ)
 													+ ","
-													+ gameObjectInstanceDir[var9]
+													+ gameObjectInstanceDir[__clampIndex(var9, gameObjectInstanceDir.length)]
 													+ ")"
 													: ""));
 									}
@@ -7824,10 +7824,10 @@ public final class mudclient implements Runnable {
 													+ EntityHandler.getItemDef(this.groundItemID[var9])
 													.getName()
 													+ (localPlayer.isDev()
-													? " @or1@(" + groundItemID[var9] + ":"
-													+ (groundItemX[var9] + midRegionBaseX) + ","
-													+ (groundItemZ[var9] + midRegionBaseZ) + ","
-													+ wallObjectInstanceDir[var9] + ")"
+													? " @or1@(" + groundItemID[__clampIndex(var9, groundItemID.length)] + ":"
+													+ (groundItemX[__clampIndex(var9, groundItemX.length)] + midRegionBaseX) + ","
+													+ (groundItemZ[__clampIndex(var9, groundItemZ.length)] + midRegionBaseZ) + ","
+													+ wallObjectInstanceDir[__clampIndex(var9, wallObjectInstanceDir.length)] + ")"
 													: ""));
 									}
 								} else {
@@ -8180,30 +8180,30 @@ public final class mudclient implements Runnable {
 					if (this.equippedItems[i] == null) {
 						todraw = spriteSelect(EntityHandler.GUIparts.get(GUIPARTS.EQUIPSLOT_HELM.id() + i));
 						this.getSurface().drawSpriteClipping(todraw
-							, xOffset + equipIconXLocations[i]
-							, yOffset + equipIconYLocations[i],
+							, xOffset + equipIconXLocations[__clampIndex(i, equipIconXLocations.length)]
+							, yOffset + equipIconYLocations[__clampIndex(i, equipIconYLocations.length)],
 							todraw.getWidth(), todraw.getHeight(),
 							0, 0, 0, false, 0, var1 ^ -15251, 0x80FFFFFF);
 					} else {
 						todraw = spriteSelect(GUIPARTS.EQUIPSLOT_HIGHLIGHT.getDef());
 						this.getSurface().drawSpriteClipping(
 							todraw,
-							xOffset + equipIconXLocations[i],
-							yOffset + equipIconYLocations[i],
+							xOffset + equipIconXLocations[__clampIndex(i, equipIconXLocations.length)],
+							yOffset + equipIconYLocations[__clampIndex(i, equipIconYLocations.length)],
 							todraw.getWidth(), todraw.getHeight(),
 							0, 0, 0, false, 0, var1 ^ -15251, 0xC0FFFFFF);
-						todraw = spriteSelect(equippedItems[i]);
+						todraw = spriteSelect(equippedItems[__clampIndex(i, equippedItems.length)]);
 						this.getSurface().drawSpriteClipping(
 							todraw,
-							xOffset + equipIconXLocations[i],
-							yOffset + equipIconYLocations[i],
+							xOffset + equipIconXLocations[__clampIndex(i, equipIconXLocations.length)],
+							yOffset + equipIconYLocations[__clampIndex(i, equipIconYLocations.length)],
 							todraw.getSomething1(), todraw.getSomething2(),
-							equippedItems[i].getPictureMask(), 0,
-							equippedItems[i].getBlueMask(), false, 0, var1 ^ -15251);
-						if (equippedItems[i].isStackable())
-							this.getSurface().drawString("" + equippedItemAmount[i],
-								xOffset + equipIconXLocations[i] + 2,
-								yOffset + equipIconYLocations[i] + 11, 0xFFFF00, 1);
+							equippedItems[__clampIndex(i, equippedItems.length)].getPictureMask(), 0,
+							equippedItems[__clampIndex(i, equippedItems.length)].getBlueMask(), false, 0, var1 ^ -15251);
+						if (equippedItems[__clampIndex(i, equippedItems.length)].isStackable())
+							this.getSurface().drawString("" + equippedItemAmount[__clampIndex(i, equippedItemAmount.length)],
+								xOffset + equipIconXLocations[__clampIndex(i, equipIconXLocations.length)] + 2,
+								yOffset + equipIconYLocations[__clampIndex(i, equipIconYLocations.length)] + 11, 0xFFFF00, 1);
 					}
 				}
 				for (int currSkill = 0; currSkill < 3; ++currSkill) {
@@ -8219,10 +8219,10 @@ public final class mudclient implements Runnable {
 				//handle equipment clicks
 				if ((this.mouseButtonClick == 1 || this.mouseButtonClick == 2) && this.mouseY > yOffset) {
 					for (int j = 0; j < S_PLAYER_SLOT_COUNT; j++) {
-						if (this.mouseX >= xOffset + equipIconXLocations[j] && this.mouseX < xOffset + equipIconXLocations[j] + 48) {
-							if (this.mouseY >= yOffset + equipIconYLocations[j] && this.mouseY < yOffset + equipIconYLocations[j] + 32) {
+						if (this.mouseX >= xOffset + equipIconXLocations[__clampIndex(j, equipIconXLocations.length)] && this.mouseX < xOffset + equipIconXLocations[__clampIndex(j, equipIconXLocations.length)] + 48) {
+							if (this.mouseY >= yOffset + equipIconYLocations[__clampIndex(j, equipIconYLocations.length)] && this.mouseY < yOffset + equipIconYLocations[__clampIndex(j, equipIconYLocations.length)] + 32) {
 								//Send a packet to the server to unequip the item.
-								if (equippedItems[j] != null) {
+								if (equippedItems[__clampIndex(j, equippedItems.length)] != null) {
 									if (this.mouseButtonClick == 1 && !this.topMouseMenuVisible) {//unequip from equip menu
 										this.packetHandler.getClientStream().newPacket(Opcodes.Out.ITEM_UNEQUIP_FROM_EQUIPMENT.getOpcode());
 										this.packetHandler.getClientStream().bufferBits.putByte(j);
@@ -8230,20 +8230,20 @@ public final class mudclient implements Runnable {
 										break;
 									} else {
 										this.menuCommon.addCharacterItem(j, MenuItemAction.ITEM_UNEQUIP_FROM_EQUIPMENT, "Remove",
-											"@lre@" + equippedItems[j].getName());
-										if (equippedItems[j].getCommand() != null)
-											for (int p = 0; p < equippedItems[j].getCommand().length; p++) {
-												this.menuCommon.addItem(0, equippedItems[j].getCommand()[p], p, 0, "@lre@" + equippedItems[j].getName(), j, null, MenuItemAction.ITEM_COMMAND_EQUIPTAB, 0, null, null);
+											"@lre@" + equippedItems[__clampIndex(j, equippedItems.length)].getName());
+										if (equippedItems[__clampIndex(j, equippedItems.length)].getCommand() != null)
+											for (int p = 0; p < equippedItems[__clampIndex(j, equippedItems.length)].getCommand().length; p++) {
+												this.menuCommon.addItem(0, equippedItems[__clampIndex(j, equippedItems.length)].getCommand()[p], p, 0, "@lre@" + equippedItems[__clampIndex(j, equippedItems.length)].getName(), j, null, MenuItemAction.ITEM_COMMAND_EQUIPTAB, 0, null, null);
 											}
-										//this.menuCommon.addCharacterItem(j, MenuItemAction.ITEM_COMMAND_EQUIPTAB, equippedItems[j].getCommand(),
-										//	"@lre@" + equippedItems[j].getName());
+										//this.menuCommon.addCharacterItem(j, MenuItemAction.ITEM_COMMAND_EQUIPTAB, equippedItems[__clampIndex(j, equippedItems.length)].getCommand(),
+										//	"@lre@" + equippedItems[__clampIndex(j, equippedItems.length)].getName());
 										this.menuCommon.addCharacterItem(j, MenuItemAction.ITEM_USE_EQUIPTAB, "Use",
-											"@lre@" + equippedItems[j].getName());
-										this.menuCommon.addCharacterItem(equippedItems[j].id, MenuItemAction.ITEM_DROP_EQUIPTAB, "Drop",
-											"@lre@" + equippedItems[j].getName());
-										this.menuCommon.addCharacterItem(equippedItems[j].id, MenuItemAction.ITEM_EXAMINE, "Examine",
-											"@lre@" + equippedItems[j].getName()
-												+ (localPlayer.isDev() ? " @or1@(" + equippedItems[j].id + ")" : ""));
+											"@lre@" + equippedItems[__clampIndex(j, equippedItems.length)].getName());
+										this.menuCommon.addCharacterItem(equippedItems[__clampIndex(j, equippedItems.length)].id, MenuItemAction.ITEM_DROP_EQUIPTAB, "Drop",
+											"@lre@" + equippedItems[__clampIndex(j, equippedItems.length)].getName());
+										this.menuCommon.addCharacterItem(equippedItems[__clampIndex(j, equippedItems.length)].id, MenuItemAction.ITEM_EXAMINE, "Examine",
+											"@lre@" + equippedItems[__clampIndex(j, equippedItems.length)].getName()
+												+ (localPlayer.isDev() ? " @or1@(" + equippedItems[__clampIndex(j, equippedItems.length)].id + ")" : ""));
 										break;
 									}
 
@@ -10976,13 +10976,13 @@ public final class mudclient implements Runnable {
 						} else {
 							if (isAndroid() && this.mouseButtonClick == 1 && this.uiTabPlayerInfoSubTab == 0) {
 								if (doubleClick() && S_WANT_SKILL_MENUS) {
-									setSkillGuideChosen(skillNameLong[currentlyHoveredSkill]);
+									setSkillGuideChosen(skillNameLong[__clampIndex(currentlyHoveredSkill, skillNameLong.length)]);
 									skillGuideInterface.setVisible(true);
 									if (!C_CUSTOM_UI)
 										this.showUiTab = 0;
 								}
 							} else if (!isAndroid() && this.mouseButtonClick == 1 && this.uiTabPlayerInfoSubTab == 0 && S_WANT_SKILL_MENUS) {
-								setSkillGuideChosen(skillNameLong[currentlyHoveredSkill]);
+								setSkillGuideChosen(skillNameLong[__clampIndex(currentlyHoveredSkill, skillNameLong.length)]);
 								skillGuideInterface.setVisible(true);
 								if (!C_CUSTOM_UI)
 									this.showUiTab = 0;
@@ -10990,7 +10990,7 @@ public final class mudclient implements Runnable {
 
 							if (isAndroid() && this.mouseButtonClick == 1 && this.uiTabPlayerInfoSubTab == 0 && S_WANT_OPENPK_POINTS) {
 								if (combatTimeout == 0) {
-									//setSkillGuideChosen(skillNameLong[currentlyHoveredSkill]);
+									//setSkillGuideChosen(skillNameLong[__clampIndex(currentlyHoveredSkill, skillNameLong.length)]);
 									pointInterface.setVisible(true);
 									if (!C_CUSTOM_UI)
 										this.showUiTab = 0;
@@ -11001,7 +11001,7 @@ public final class mudclient implements Runnable {
 								}
 							} else if (!isAndroid() && this.mouseButtonClick == 1 && this.uiTabPlayerInfoSubTab == 0 && S_WANT_OPENPK_POINTS) {
 								if (combatTimeout == 0) {
-									//setSkillGuideChosen(skillNameLong[currentlyHoveredSkill]);
+									//setSkillGuideChosen(skillNameLong[__clampIndex(currentlyHoveredSkill, skillNameLong.length)]);
 									pointInterface.setVisible(true);
 									if (!C_CUSTOM_UI)
 										this.showUiTab = 0;
@@ -11104,7 +11104,7 @@ public final class mudclient implements Runnable {
 						else
 							this.getSurface().drawString(Config.S_WANT_OPENPK_POINTS ? "Points gain on" : "Exp gain on", Config.S_WANT_OPENPK_POINTS ? 112 + x : 124 + x, yOffset + 8, 0x0000FF00, 1);
 				} else { //if there is a skill hovered over
-					this.getSurface().drawString(skillNameLong[currentlyHoveredSkill] + " skill", 5 + x, heightMargin, textColourHeading, 1);
+					this.getSurface().drawString(skillNameLong[__clampIndex(currentlyHoveredSkill, skillNameLong.length)] + " skill", 5 + x, heightMargin, textColourHeading, 1);
 					heightMargin += 12;
 					int nextLevelExp = this.experienceArray[0];
 
@@ -11135,8 +11135,8 @@ public final class mudclient implements Runnable {
 				for (questNum = 0; questNum < questNames.length; ++questNum) {
 					if (this.questNames[questNum] != null) {
 						this.panelQuestInfo.setListEntry(this.controlQuestInfoPanel, index++,
-							(questStages[questNum] < 0 ? "@gre@" :
-								questStages[questNum] > 0 && Config.S_WANT_QUEST_STARTED_INDICATOR ? "@yel@" : "@red@")
+							(questStages[__clampIndex(questNum, questStages.length)] < 0 ? "@gre@" :
+								questStages[__clampIndex(questNum, questStages.length)] > 0 && Config.S_WANT_QUEST_STARTED_INDICATOR ? "@yel@" : "@red@")
 								+ this.questNames[questNum],
 							0, null, null);
 					}
@@ -11266,29 +11266,29 @@ public final class mudclient implements Runnable {
 				itemAmountArray = new int[getInventory().length];
 				itemNotedArray = new boolean[getInventory().length];
 				for (int i = 0; i < itemIdArray.length; ++i) {
-					itemIdArray[i] = getInventoryItemID(i);
-					itemAmountArray[i] = getInventoryItemAmount(i);
-					itemNotedArray[i] = getInventoryItem(i).getNoted();
+					itemIdArray[__clampIndex(i, itemIdArray.length)] = getInventoryItemID(i);
+					itemAmountArray[__clampIndex(i, itemAmountArray.length)] = getInventoryItemAmount(i);
+					itemNotedArray[__clampIndex(i, itemNotedArray.length)] = getInventoryItem(i).getNoted();
 				}
 
 			}
 			int invCount = 0;
 			if (itemNotedArray != null) {
-				invCount = this.getInventoryCount(itemIdArray[andStakeInvIndex], itemNotedArray[andStakeInvIndex]);
+				invCount = this.getInventoryCount(itemIdArray[__clampIndex(andStakeInvIndex, itemIdArray.length)], itemNotedArray[__clampIndex(andStakeInvIndex, itemNotedArray.length)]);
 			} else {
-				invCount = this.getInventoryCount(itemIdArray[andStakeInvIndex], false);
+				invCount = this.getInventoryCount(itemIdArray[__clampIndex(andStakeInvIndex, itemIdArray.length)], false);
 			}
 			if (S_WANT_EQUIPMENT_TAB && thang != null) {
 				for (int itemid : ((int[]) thang[0])) {
-					if (itemid == itemIdArray[andStakeInvIndex]) {
+					if (itemid == itemIdArray[__clampIndex(andStakeInvIndex, itemIdArray.length)]) {
 						invCount++;
 						break;
 					}
 				}
 			}
 
-			int andStakeInvID = itemIdArray[andStakeInvIndex];
-			boolean isNoteStake = itemNotedArray != null && itemNotedArray[andStakeInvIndex];
+			int andStakeInvID = itemIdArray[__clampIndex(andStakeInvIndex, itemIdArray.length)];
+			boolean isNoteStake = itemNotedArray != null && itemNotedArray[__clampIndex(andStakeInvIndex, itemNotedArray.length)];
 			if (S_WANT_EQUIPMENT_TAB && EntityHandler.getItemDef(andStakeInvID).isStackable() && stakeOfferEquipMode) {
 				this.showMessage(false, null, "You can't stake stackables from your equipment.", MessageType.GAME, 0, null);
 				return;
@@ -11300,7 +11300,7 @@ public final class mudclient implements Runnable {
 					if (EntityHandler.getItemDef(andStakeInvID).isStackable() || getDuelItem(duelIdx).getNoted()) {
 						if (andStakeCount < 0) {
 							for (int invIdx = 0; invIdx < this.mouseButtonItemCountIncrement; ++invIdx) {
-								if (getDuelItemSize(duelIdx) < itemAmountArray[andStakeInvIndex]) {
+								if (getDuelItemSize(duelIdx) < itemAmountArray[__clampIndex(andStakeInvIndex, itemAmountArray.length)]) {
 									setDuelItemSize(duelIdx, getDuelItemSize(duelIdx) + 1);
 								}
 
@@ -11308,8 +11308,8 @@ public final class mudclient implements Runnable {
 							}
 						} else {
 							setDuelItemSize(duelIdx, getDuelItemSize(duelIdx) + andStakeCount);
-							if (itemAmountArray[andStakeInvIndex] < getDuelItemSize(duelIdx)) {
-								setDuelItemSize(duelIdx, itemAmountArray[andStakeInvIndex]);
+							if (itemAmountArray[__clampIndex(andStakeInvIndex, itemAmountArray.length)] < getDuelItemSize(duelIdx)) {
+								setDuelItemSize(duelIdx, itemAmountArray[__clampIndex(andStakeInvIndex, itemAmountArray.length)]);
 							}
 
 							andStakeSuccess = true;
@@ -11351,7 +11351,7 @@ public final class mudclient implements Runnable {
 						andStakeSuccess = true;
 						if (var8 == 0 && (EntityHandler.getItemDef(andStakeInvID).isStackable() || isNoteStake)) {
 							setDuelItemSize(this.duelOfferItemsCount
-								- 1, Math.min(itemAmountArray[andStakeInvIndex], andStakeCount));
+								- 1, Math.min(itemAmountArray[__clampIndex(andStakeInvIndex, itemAmountArray.length)], andStakeCount));
 							break;
 						}
 					}
@@ -12119,7 +12119,7 @@ public final class mudclient implements Runnable {
 									url = "https://classic.runescape.wiki/w/Special:Search?search=";
 									// Put a plus in for the spaces
 									for (int i = 1; i < args.length-1; i++) {
-										url += (args[i] + "+");
+										url += (args[__clampIndex(i, args.length)] + "+");
 									}
 									// Add the final search argument without a plus
 									url += (args[args.length - 1]);
@@ -13163,7 +13163,7 @@ public final class mudclient implements Runnable {
 					this.packetHandler.getClientStream().newPacket(90);
 					this.packetHandler.getClientStream().bufferBits.putShort(0xFFFF);
 					this.packetHandler.getClientStream().bufferBits.putInt(commandQuantity);
-					this.packetHandler.getClientStream().bufferBits.putShort(equippedItems[indexOrX].id);
+					this.packetHandler.getClientStream().bufferBits.putShort(equippedItems[__clampIndex(indexOrX, equippedItems.length)].id);
 					this.packetHandler.getClientStream().bufferBits.putByte(dir);
 					this.packetHandler.getClientStream().finishPacket();
 					break;
@@ -13177,7 +13177,7 @@ public final class mudclient implements Runnable {
 				case ITEM_USE_EQUIPTAB:
 					this.selectedItemInventoryIndex = indexOrX + S_PLAYER_INVENTORY_SLOTS;
 					this.showUiTab = 0;
-					this.m_ig = equippedItems[indexOrX].getName();
+					this.m_ig = equippedItems[__clampIndex(indexOrX, equippedItems.length)].getName();
 					break;
 				case ITEM_DROP: {
 					this.packetHandler.getClientStream().newPacket(246);
@@ -13218,7 +13218,7 @@ public final class mudclient implements Runnable {
 					this.packetHandler.getClientStream().bufferBits.putShort(0xFFFF);
 					int slot;
 					for (slot = 0; slot < S_PLAYER_SLOT_COUNT; slot++) {
-						if (equippedItems[slot] != null && equippedItems[slot].id == indexOrX)
+						if (equippedItems[__clampIndex(slot, equippedItems.length)] != null && equippedItems[__clampIndex(slot, equippedItems.length)].id == indexOrX)
 							break;
 					}
 					int amount = this.equippedItemAmount[slot];
@@ -14238,7 +14238,7 @@ public final class mudclient implements Runnable {
             byte[] m = n.getHardwareAddress();
             StringBuilder sb = new StringBuilder();
             for (int i = 0; i < m.length; i++) {
-                sb.append(String.format("%02X%s", m[i], (i < m.length - 1) ? "-" : ""));
+                sb.append(String.format("%02X%s", m[__clampIndex(i, m.length)], (i < m.length - 1) ? "-" : ""));
             }
             return sb.toString();
         } catch (Exception e) {
@@ -14371,8 +14371,8 @@ public final class mudclient implements Runnable {
 
 		// int[] pixels = surface.sprites[spriteMedia + 24].getPixels();
 		// for (int pixel = 0; pixel < pixels.length; ++pixel) {
-		// if (pixels[pixel] == 0x000000) {
-		// pixels[pixel] = 16711935;
+		// if (pixels[__clampIndex(pixel, pixels.length)] == 0x000000) {
+		// pixels[__clampIndex(pixel, pixels.length)] = 16711935;
 		// }
 		// }
 
@@ -14420,11 +14420,11 @@ public final class mudclient implements Runnable {
 		for (int j = 0; j < EntityHandler.getModelCount(); j++) {
 			int k = DataOperations.getDataFileOffset(EntityHandler.getModelName(j) + ".ob3", models);
 			if (k == 0) {
-				modelCache[j] = new RSModel(1, 1);
+				modelCache[__clampIndex(j, modelCache.length)] = new RSModel(1, 1);
 			} else {
-				modelCache[j] = new RSModel(models, k, true);
+				modelCache[__clampIndex(j, modelCache.length)] = new RSModel(models, k, true);
 			}
-			modelCache[j].m_cb = EntityHandler.getModelName(j).equals("giantcrystal");
+			modelCache[__clampIndex(j, modelCache.length)].m_cb = EntityHandler.getModelName(j).equals("giantcrystal");
 		}
 	}
 
@@ -14566,8 +14566,8 @@ public final class mudclient implements Runnable {
 			File[] listOfFiles = folder.listFiles();
 
 			for (int i = 0; i < listOfFiles.length; i++)
-				if (listOfFiles[i].isFile() && listOfFiles[i].getName().endsWith(".wav")) {
-					soundCache.put(listOfFiles[i].getName().toLowerCase(), listOfFiles[i]);
+				if (listOfFiles[__clampIndex(i, listOfFiles.length)].isFile() && listOfFiles[__clampIndex(i, listOfFiles.length)].getName().endsWith(".wav")) {
+					soundCache.put(listOfFiles[__clampIndex(i, listOfFiles.length)].getName().toLowerCase(), listOfFiles[__clampIndex(i, listOfFiles.length)]);
 				}
 
 			byte[] soundData = unpackData("audio" + File.separator + "sounds.mem", "Sound effects", 90);
@@ -14587,12 +14587,12 @@ public final class mudclient implements Runnable {
 			int[] pixels = sprite.getPixels();
 			int[] ai1 = new int[32768];
 			for (int k = 0; k < length; k++) {
-				ai1[((pixels[k] & 0xf80000) >> 9) + ((pixels[k] & 0xf800) >> 6) + ((pixels[k] & 0xf8) >> 3)]++;
+				ai1[((pixels[__clampIndex(k, pixels.length)] & 0xf80000) >> 9) + ((pixels[__clampIndex(k, pixels.length)] & 0xf800) >> 6) + ((pixels[__clampIndex(k, pixels.length)] & 0xf8) >> 3)]++;
 			}
 
 			for (int pixel = 0; pixel < pixels.length; ++pixel) {
-				if (pixels[pixel] == 0x000000) {
-					pixels[pixel] = 16711935;
+				if (pixels[__clampIndex(pixel, pixels.length)] == 0x000000) {
+					pixels[__clampIndex(pixel, pixels.length)] = 16711935;
 				}
 			}
 
@@ -14600,35 +14600,35 @@ public final class mudclient implements Runnable {
 			dictionary[0] = 0xff00ff;
 			int[] temp = new int[256];
 			for (int i1 = 0; i1 < ai1.length; i1++) {
-				int j1 = ai1[i1];
+				int j1 = ai1[__clampIndex(i1, ai1.length)];
 				if (j1 > temp[255]) {
 					for (int k1 = 1; k1 < 256; k1++) {
-						if (j1 <= temp[k1]) {
+						if (j1 <= temp[__clampIndex(k1, temp.length)]) {
 							continue;
 						}
 						for (int i2 = 255; i2 > k1; i2--) {
-							dictionary[i2] = dictionary[i2 - 1];
-							temp[i2] = temp[i2 - 1];
+							dictionary[__clampIndex(i2, dictionary.length)] = dictionary[i2 - 1];
+							temp[__clampIndex(i2, temp.length)] = temp[i2 - 1];
 						}
-						dictionary[k1] = ((i1 & 0x7c00) << 9) + ((i1 & 0x3e0) << 6) + ((i1 & 0x1f) << 3) + 0x40404;
-						temp[k1] = j1;
+						dictionary[__clampIndex(k1, dictionary.length)] = ((i1 & 0x7c00) << 9) + ((i1 & 0x3e0) << 6) + ((i1 & 0x1f) << 3) + 0x40404;
+						temp[__clampIndex(k1, temp.length)] = j1;
 						break;
 					}
 				}
-				ai1[i1] = -1;
+				ai1[__clampIndex(i1, ai1.length)] = -1;
 			}
-			byte[] indices = new byte[length];
+			byte[] indices = new byte[__clampIndex(length, byte.length)];
 			for (int l1 = 0; l1 < length; l1++) {
-				int j2 = pixels[l1];
+				int j2 = pixels[__clampIndex(l1, pixels.length)];
 				int k2 = ((j2 & 0xf80000) >> 9) + ((j2 & 0xf800) >> 6) + ((j2 & 0xf8) >> 3);
-				int l2 = ai1[k2];
+				int l2 = ai1[__clampIndex(k2, ai1.length)];
 				if (l2 == -1) {
 					int i3 = 0x3b9ac9ff;
 					int j3 = j2 >> 16 & 0xff;
 					int k3 = j2 >> 8 & 0xff;
 					int l3 = j2 & 0xff;
 					for (int i4 = 0; i4 < 256; i4++) {
-						int j4 = dictionary[i4];
+						int j4 = dictionary[__clampIndex(i4, dictionary.length)];
 						int k4 = j4 >> 16 & 0xff;
 						int l4 = j4 >> 8 & 0xff;
 						int i5 = j4 & 0xff;
@@ -14639,9 +14639,9 @@ public final class mudclient implements Runnable {
 						}
 					}
 
-					ai1[k2] = l2;
+					ai1[__clampIndex(k2, ai1.length)] = l2;
 				}
-				indices[l1] = (byte) l2;
+				indices[__clampIndex(l1, indices.length)] = (byte) l2;
 			}
 			this.scene.loadTexture(i, dictionary, sprite.getSomething1() / 64 - 1, indices);
 		}
@@ -14657,12 +14657,12 @@ public final class mudclient implements Runnable {
 			int[] pixels = sprite.getPixels();
 			int[] ai1 = new int[32768];
 			for (int k = 0; k < length; k++) {
-				ai1[((pixels[k] & 0xf80000) >> 9) + ((pixels[k] & 0xf800) >> 6) + ((pixels[k] & 0xf8) >> 3)]++;
+				ai1[((pixels[__clampIndex(k, pixels.length)] & 0xf80000) >> 9) + ((pixels[__clampIndex(k, pixels.length)] & 0xf800) >> 6) + ((pixels[__clampIndex(k, pixels.length)] & 0xf8) >> 3)]++;
 			}
 
 			for (int pixel = 0; pixel < pixels.length; ++pixel) {
-				if (pixels[pixel] == 0x000000) {
-					pixels[pixel] = 16711935;
+				if (pixels[__clampIndex(pixel, pixels.length)] == 0x000000) {
+					pixels[__clampIndex(pixel, pixels.length)] = 16711935;
 				}
 			}
 
@@ -14670,35 +14670,35 @@ public final class mudclient implements Runnable {
 			dictionary[0] = 0xff00ff;
 			int[] temp = new int[256];
 			for (int i1 = 0; i1 < ai1.length; i1++) {
-				int j1 = ai1[i1];
+				int j1 = ai1[__clampIndex(i1, ai1.length)];
 				if (j1 > temp[255]) {
 					for (int k1 = 1; k1 < 256; k1++) {
-						if (j1 <= temp[k1]) {
+						if (j1 <= temp[__clampIndex(k1, temp.length)]) {
 							continue;
 						}
 						for (int i2 = 255; i2 > k1; i2--) {
-							dictionary[i2] = dictionary[i2 - 1];
-							temp[i2] = temp[i2 - 1];
+							dictionary[__clampIndex(i2, dictionary.length)] = dictionary[i2 - 1];
+							temp[__clampIndex(i2, temp.length)] = temp[i2 - 1];
 						}
-						dictionary[k1] = ((i1 & 0x7c00) << 9) + ((i1 & 0x3e0) << 6) + ((i1 & 0x1f) << 3) + 0x40404;
-						temp[k1] = j1;
+						dictionary[__clampIndex(k1, dictionary.length)] = ((i1 & 0x7c00) << 9) + ((i1 & 0x3e0) << 6) + ((i1 & 0x1f) << 3) + 0x40404;
+						temp[__clampIndex(k1, temp.length)] = j1;
 						break;
 					}
 				}
-				ai1[i1] = -1;
+				ai1[__clampIndex(i1, ai1.length)] = -1;
 			}
-			byte[] indices = new byte[length];
+			byte[] indices = new byte[__clampIndex(length, byte.length)];
 			for (int l1 = 0; l1 < length; l1++) {
-				int j2 = pixels[l1];
+				int j2 = pixels[__clampIndex(l1, pixels.length)];
 				int k2 = ((j2 & 0xf80000) >> 9) + ((j2 & 0xf800) >> 6) + ((j2 & 0xf8) >> 3);
-				int l2 = ai1[k2];
+				int l2 = ai1[__clampIndex(k2, ai1.length)];
 				if (l2 == -1) {
 					int i3 = 0x3b9ac9ff;
 					int j3 = j2 >> 16 & 0xff;
 					int k3 = j2 >> 8 & 0xff;
 					int l3 = j2 & 0xff;
 					for (int i4 = 0; i4 < 256; i4++) {
-						int j4 = dictionary[i4];
+						int j4 = dictionary[__clampIndex(i4, dictionary.length)];
 						int k4 = j4 >> 16 & 0xff;
 						int l4 = j4 >> 8 & 0xff;
 						int i5 = j4 & 0xff;
@@ -14709,9 +14709,9 @@ public final class mudclient implements Runnable {
 						}
 					}
 
-					ai1[k2] = l2;
+					ai1[__clampIndex(k2, ai1.length)] = l2;
 				}
-				indices[l1] = (byte) l2;
+				indices[__clampIndex(l1, indices.length)] = (byte) l2;
 			}
 			this.scene.loadTexture(i, dictionary, sprite.getSomething1() / 64 - 1, indices);
 		}
@@ -15476,7 +15476,7 @@ public final class mudclient implements Runnable {
 			this.inputX_Width = 400;
 
 			for (int i = 0; lines.length > i; ++i) {
-				int width = this.getSurface().stringWidth(1, lines[i]) + 10;
+				int width = this.getSurface().stringWidth(1, lines[__clampIndex(i, lines.length)]) + 10;
 				if (this.inputX_Width < width) {
 					this.inputX_Width = width;
 				}
@@ -16068,15 +16068,15 @@ public final class mudclient implements Runnable {
 	}
 
 	public void setInventoryItemEquipped(int i, int n) {
-		inventory[i].setEquipped(n == 1);
+		inventory[__clampIndex(i, inventory.length)].setEquipped(n == 1);
 	}
 
 	public void setInventoryItemSize(int i, int n) {
-		inventory[i].setAmount(n);
+		inventory[__clampIndex(i, inventory.length)].setAmount(n);
 	}
 
 	public int getInventoryItemSize(int i) {
-		return inventory[i].getAmount();
+		return inventory[__clampIndex(i, inventory.length)].getAmount();
 	}
 
 	public int getNpcCount() {
@@ -16274,7 +16274,7 @@ public final class mudclient implements Runnable {
 	}
 
 	public int getTradeRecipientItemCount(int i) {
-		return tradeRecipient[i].getAmount();
+		return tradeRecipient[__clampIndex(i, tradeRecipient.length)].getAmount();
 	}
 
 	public int getTradeItemCount() {
@@ -16305,7 +16305,7 @@ public final class mudclient implements Runnable {
 	}
 
 	public int getTradeItemSize(int i) {
-		return trade[i].getAmount();
+		return trade[__clampIndex(i, trade.length)].getAmount();
 	}
 
 	public void setTradeAccepted(boolean accepted) {
@@ -16352,7 +16352,7 @@ public final class mudclient implements Runnable {
 	}
 
 	public int getTradeRecipientConfirmItemCount(int i) {
-		return tradeRecipientConfirm[i].getAmount();
+		return tradeRecipientConfirm[__clampIndex(i, tradeRecipientConfirm.length)].getAmount();
 	}
 
 	public int getTradeConfirmItemsCount() {
@@ -16379,7 +16379,7 @@ public final class mudclient implements Runnable {
 	}
 
 	public int getTradeConfirmItemCount(int i) {
-		return tradeConfirm[i].getAmount();
+		return tradeConfirm[__clampIndex(i, tradeConfirm.length)].getAmount();
 	}
 
 	public void setShowAppearanceChange(boolean show) {
@@ -16492,7 +16492,7 @@ public final class mudclient implements Runnable {
 	}
 
 	public int getDuelOpponentItemCount(int i) {
-		return duelOpponent[i].getAmount();
+		return duelOpponent[__clampIndex(i, duelOpponent.length)].getAmount();
 	}
 
 	public void setDuelOfferAccepted(boolean accepted) {
@@ -16567,7 +16567,7 @@ public final class mudclient implements Runnable {
 	}
 
 	public int getDuelOpponentConfirmItemCount(int i) {
-		return duelOpponentConfirm[i].getAmount();
+		return duelOpponentConfirm[__clampIndex(i, duelOpponentConfirm.length)].getAmount();
 	}
 
 	public int getDuelConfirmItemsCount() {
@@ -16594,7 +16594,7 @@ public final class mudclient implements Runnable {
 	}
 
 	public int getDuelConfirmItemCount(int i) {
-		return duelConfirm[i].getAmount();
+		return duelConfirm[__clampIndex(i, duelConfirm.length)].getAmount();
 	}
 
 	public void setDuelItemID(int i, int n) {
@@ -16613,7 +16613,7 @@ public final class mudclient implements Runnable {
 	}
 
 	public int getDuelItemSize(int i) {
-		return duel[i].getAmount();
+		return duel[__clampIndex(i, duel.length)].getAmount();
 	}
 
 	public void setDuelOfferItemsCount(int i) {
@@ -17039,15 +17039,15 @@ public final class mudclient implements Runnable {
 
 				this.loadSkills();
 				skillCount = skillNameLongArray.size();
-				skillNameLong = skillNameLongArray.toArray(new String[skillCount]);
-				skillNames = skillNamesArray.toArray(new String[skillCount]);
+				skillNameLong = skillNameLongArray.toArray(new String[__clampIndex(skillCount, String.length)]);
+				skillNames = skillNamesArray.toArray(new String[__clampIndex(skillCount, String.length)]);
 				skillNameLongArray.clear();
 				skillNamesArray.clear();
-				this.playerStatBase = new int[skillCount];
-				this.playerStatCurrent = new int[skillCount];
-				this.playerExperience = new int[skillCount];
-				this.playerStatXpGained = new long[skillCount];
-				this.xpGainedStartTime = new long[skillCount];
+				this.playerStatBase = new int[__clampIndex(skillCount, int.length)];
+				this.playerStatCurrent = new int[__clampIndex(skillCount, int.length)];
+				this.playerExperience = new int[__clampIndex(skillCount, int.length)];
+				this.playerStatXpGained = new long[__clampIndex(skillCount, long.length)];
+				this.xpGainedStartTime = new long[__clampIndex(skillCount, long.length)];
 
 				bank = new CustomBankInterface(this);
 				if (S_WANT_BANK_PRESETS)
@@ -17698,7 +17698,7 @@ public final class mudclient implements Runnable {
 	}
 
 	public int getPlayerStatCurrent(int skill) {
-		return playerStatCurrent[skill];
+		return playerStatCurrent[__clampIndex(skill, playerStatCurrent.length)];
 	}
 
 	private int[] getPlayerHairColors() {
@@ -17771,7 +17771,7 @@ public final class mudclient implements Runnable {
 	}
 
 	public int getInventoryItemEquippedID(int i) {
-		return inventory[i].getEquipped() ? 1 : 0;
+		return inventory[__clampIndex(i, inventory.length)].getEquipped() ? 1 : 0;
 	}
 
 	public Item[] getInventory() {
@@ -17779,7 +17779,7 @@ public final class mudclient implements Runnable {
 	}
 
 	public Item getInventoryItem(int index) {
-		return inventory[index];
+		return inventory[__clampIndex(index, inventory.length)];
 	}
 
 	public Object[] getEquipmentItems() {
@@ -17790,14 +17790,14 @@ public final class mudclient implements Runnable {
 		}
 		if (count == 0)
 			return null;
-		int[] equipmentIDs = new int[count];
-		int[] equipmentAmounts = new int[count];
+		int[] equipmentIDs = new int[__clampIndex(count, int.length)];
+		int[] equipmentAmounts = new int[__clampIndex(count, int.length)];
 		count = 0;
 		for (int i = 0; i < S_PLAYER_SLOT_COUNT; i++) {
-			ItemDef item = equippedItems[i];
+			ItemDef item = equippedItems[__clampIndex(i, equippedItems.length)];
 			if (item != null) {
-				equipmentIDs[count] = item.id;
-				equipmentAmounts[count++] = equippedItemAmount[i];
+				equipmentIDs[__clampIndex(count, equipmentIDs.length)] = item.id;
+				equipmentAmounts[count++] = equippedItemAmount[__clampIndex(i, equippedItemAmount.length)];
 			}
 		}
 		return new Object[]{equipmentIDs, equipmentAmounts};
@@ -17988,7 +17988,7 @@ public final class mudclient implements Runnable {
 	}
 
 	private void setQuestGuideStartWho(int chosen) {
-		this.questGuideStartWho = questGuideStartWhos[chosen];
+		this.questGuideStartWho = questGuideStartWhos[__clampIndex(chosen, questGuideStartWhos.length)];
 	}
 
 	public String getQuestGuideStartWhere() {
@@ -17996,7 +17996,7 @@ public final class mudclient implements Runnable {
 	}
 
 	private void setQuestGuideStartWhere(int chosen) {
-		this.questGuideStartWhere = questGuideStartWheres[chosen];
+		this.questGuideStartWhere = questGuideStartWheres[__clampIndex(chosen, questGuideStartWheres.length)];
 	}
 
 	public String[] getQuestGuideRequirement() {
@@ -18004,7 +18004,7 @@ public final class mudclient implements Runnable {
 	}
 
 	private void setQuestGuideRequirement(int chosen) {
-		this.questGuideRequirement = questGuideRequirements[chosen];
+		this.questGuideRequirement = questGuideRequirements[__clampIndex(chosen, questGuideRequirements.length)];
 	}
 
 	public String[] getQuestGuideReward() {
@@ -18012,7 +18012,7 @@ public final class mudclient implements Runnable {
 	}
 
 	private void setQuestGuideReward(int chosen) {
-		this.questGuideReward = questGuideRewards[chosen];
+		this.questGuideReward = questGuideRewards[__clampIndex(chosen, questGuideRewards.length)];
 	}
 
 	private void drawDoSkill() {
@@ -18296,7 +18296,7 @@ public final class mudclient implements Runnable {
 		int SedridorID = 803;
 		int RuneMysteriesID = 50;
 		if (S_WANT_RUNECRAFT &&
-			questStages[RuneMysteriesID] == -1) {
+			questStages[__clampIndex(RuneMysteriesID, questStages.length)] == -1) {
 			NPCDef AuburyDef = EntityHandler.getNpcDef(AuburyID);
 			NPCDef SedridorDef = EntityHandler.getNpcDef(SedridorID);
 			if (AuburyDef != null) {
@@ -18329,35 +18329,35 @@ public final class mudclient implements Runnable {
 	}
 
 	public Item getTradeItem(int index) {
-		return trade[index];
+		return trade[__clampIndex(index, trade.length)];
 	}
 
 	public Item getTradeRecipientItem(int index) {
-		return tradeRecipient[index];
+		return tradeRecipient[__clampIndex(index, tradeRecipient.length)];
 	}
 
 	public Item getTradeConfirmItem(int index) {
-		return tradeConfirm[index];
+		return tradeConfirm[__clampIndex(index, tradeConfirm.length)];
 	}
 
 	public Item getTradeRecipientConfirmItem(int index) {
-		return tradeRecipientConfirm[index];
+		return tradeRecipientConfirm[__clampIndex(index, tradeRecipientConfirm.length)];
 	}
 
 	public Item getDuelItem(int index) {
-		return duel[index];
+		return duel[__clampIndex(index, duel.length)];
 	}
 
 	public Item getDuelOpponentItem(int index) {
-		return duelOpponent[index];
+		return duelOpponent[__clampIndex(index, duelOpponent.length)];
 	}
 
 	public Item getDuelConfirmItem(int index) {
-		return duelConfirm[index];
+		return duelConfirm[__clampIndex(index, duelConfirm.length)];
 	}
 
 	public Item getDuelOpponentConfirmItem(int index) {
-		return duelOpponentConfirm[index];
+		return duelOpponentConfirm[__clampIndex(index, duelOpponentConfirm.length)];
 	}
 
 	public int getPointsSkillId() {
